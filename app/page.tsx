@@ -5,8 +5,12 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
 import LoadingScreen from "@/components/loading-screen";
 
-// Lazy-load Hero to reduce initial JS bundle
+// Lazy-load Hero and About to reduce initial JS bundle
 const Hero = dynamic(() => import("@/components/hero"), {
+  ssr: true,
+});
+
+const About = dynamic(() => import("@/components/about"), {
   ssr: true,
 });
 
@@ -17,7 +21,7 @@ export default function Home() {
     // Wait for loading screen to complete before showing main content
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 1500);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -33,9 +37,9 @@ export default function Home() {
         <Navbar />
         <main className="relative">
           <Hero />
+          <About />
           
           {/* Future sections will be added here:
-          <About />
           <Events />
           <Team />
           <Footer />
@@ -46,10 +50,8 @@ export default function Home() {
   );
 }
 
-// MODIFIED TO CLIENT COMPONENT:
-// - Added smooth fade-in transition after loading screen
-// - Requires useState/useEffect for coordinated timing
-// - Wraps content in opacity transition wrapper
-// - Minimal performance impact (~1KB additional JS)
-// - Previous version was Server Component, but this change
-//   improves UX significantly with negligible cost
+// CHANGES MADE:
+// - Imported About component with dynamic loading
+// - Added <About /> after <Hero /> in main content
+// - Lazy-loading ensures About's framer-motion code doesn't bloat initial bundle
+// - ssr: true maintains SEO while code-splitting

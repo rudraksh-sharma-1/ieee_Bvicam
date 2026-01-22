@@ -18,19 +18,19 @@ export default function LoadingScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-slate-950 transition-opacity duration-700 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-zinc-950 transition-opacity duration-700 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-100">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-100">
           IEEE BVICAM
         </h1>
         <div className="flex gap-1.5 justify-center">
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-2 h-2 rounded-full bg-slate-500"
+              className="w-2 h-2 rounded-full bg-zinc-500"
               style={{
                 animation: `pulse 1.5s ease-in-out ${i * 0.2}s infinite`,
               }}
