@@ -47,7 +47,7 @@ export default function About() {
           >
             {/* Placeholder for BVICAM college image */}
             <Image
-              src="/images/bvicam-campus.AVIF"
+              src="/images/bvicam-campus.avif"
               alt="BVICAM College Campus"
               fill
               className="object-cover"
