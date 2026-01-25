@@ -2,17 +2,33 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const navLinks = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "events", label: "Events" },
-  { id: "chapters", label: "Chapters" },
+// Base nav links (non-dropdown)
+const baseNavLinks = [
+  { id: "about", label: "About", scrollTo: "about" },
+  { id: "chapters", label: "Chapters", scrollTo: "chapters" },
+];
+
+// Events dropdown items
+const eventsDropdownItems = [
+  { label: "Past Events", href: "/events/ieee-education-week-2025" },
+  { label: "Upcoming Events", href: "/events/upcoming" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const isHomePage = pathname === "/";
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -22,54 +38,92 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const handleNavigation = (link: typeof baseNavLinks[0]) => {
+    if (!isHomePage) {
+      router.push("/");
+      return;
+    }
+    
+    if (link.scrollTo) {
+      scrollToSection(link.scrollTo);
+    }
+  };
+
+  const handleHomeClick = () => {
+    if (isHomePage) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/");
+    }
+    setIsOpen(false);
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18">
-          {/* Logo */}
+          {/* Logo - Enhanced Visibility */}
           <button
-            onClick={() => scrollToSection("home")}
-            className="flex items-center gap-3 group cursor-pointer transition-all duration-300"
-            aria-label="Scroll to home"
+            onClick={handleHomeClick}
+            className="flex items-center gap-3 group cursor-pointer transition-all duration-300 -ml-2 sm:-ml-3"
+            aria-label="IEEE BVICAM Home"
           >
-            {/* Logo Image Container */}
-            <div className="relative w-20 h-20 flex items-center justify-center">
-
+            <div className="relative w-32 h-16 sm:w-40 sm:h-20 md:w-48 md:h-24 flex items-center justify-center">
               <Image
-                src="/images/bvicam_logo.avif"
+                src="/images/SBIEEE_logo.webp"
                 alt="IEEE BVICAM Logo"
-                width={160}
-                height={160}
-                className="object-contain
-                scale-110
-                transition-all duration-300
-                group-hover:scale-115
-                group-hover:drop-shadow-[0_0_18px_rgba(148,163,184,0.6)]"
+                fill
+                sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, 192px"
+                className="object-contain transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(148,163,184,0.5)]"
                 priority
               />
-              {/* <span className="absolute text-lg font-bold text-zinc-100 opacity-0">IB</span> */}
             </div>
-
-            {/* Text with refined positioning and glow */}
-            <span className="hidden sm:block text-base font-semibold text-zinc-100 translate-y-0.5
-                 transition-all duration-300
-                 group-hover:text-zinc-50
-                 group-hover:drop-shadow-[0_0_12px_rgba(148,163,184,0.8)]">
-              IEEE BVICAM
-            </span>
           </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+            {/* Home button */}
+            <button
+              onClick={handleHomeClick}
+              className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50"
+            >
+              Home
+            </button>
+
+            {baseNavLinks.map((link) => (
               <button
                 key={link.id}
-                onClick={() => scrollToSection(link.id)}
+                onClick={() => handleNavigation(link)}
                 className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50"
               >
                 {link.label}
               </button>
             ))}
+
+            {/* Events Dropdown */}
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <button className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50 flex items-center gap-1">
+                  Events
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-zinc-900 border-zinc-800">
+                {eventsDropdownItems.map((item) => (
+                  <DropdownMenuItem key={item.label} asChild>
+                    <Link
+                      href={item.href}
+                      className="text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800 cursor-pointer"
+                    >
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Button
               variant="default"
               size="sm"
@@ -85,26 +139,11 @@ export default function Navbar() {
             className="md:hidden p-2 rounded-md text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50 transition-colors"
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
@@ -114,15 +153,39 @@ export default function Navbar() {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-zinc-800/50">
             <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
+              {/* Home button mobile */}
+              <button
+                onClick={handleHomeClick}
+                className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors text-left"
+              >
+                Home
+              </button>
+
+              {baseNavLinks.map((link) => (
                 <button
                   key={link.id}
-                  onClick={() => scrollToSection(link.id)}
+                  onClick={() => handleNavigation(link)}
                   className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors text-left"
                 >
                   {link.label}
                 </button>
               ))}
+
+              {/* Events submenu in mobile */}
+              <div className="border-t border-zinc-800/50 mt-2 pt-2">
+                <div className="px-4 py-1 text-xs uppercase tracking-wider text-zinc-500">Events</div>
+                {eventsDropdownItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors block"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
               <Button
                 variant="default"
                 size="sm"
@@ -137,44 +200,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-// BRANDING ENHANCEMENTS SUMMARY:
-//
-// 1. Logo Image Integration:
-//    - Added Next.js <Image /> component with proper sizing (32x32 inside 40x40 container)
-//    - Priority loading for above-fold content
-//    - Fallback "IB" text hidden but preserved for graceful degradation
-//    - Path: /images/logo.png (replace with actual logo file)
-//
-// 2. Text Positioning:
-//    - Added translate-y-0.5 (2px downward shift) for visual anchoring
-//    - Text appears intentionally positioned relative to logo
-//    - Maintains responsive behavior (hidden on mobile via sm:block)
-//
-// 3. Hover Glow Effect (CSS-only):
-//    - Logo: box-shadow glow on hover (zinc-400 with 0.3 opacity)
-//    - Text: custom text-shadow-glow class (defined in globals.css)
-//    - Unified via :group-hover (entire button is interactive unit)
-//    - Smooth 300ms transition for premium feel
-//    - No JavaScript, no performance impact
-//
-// 4. Accessibility & Performance:
-//    - Proper alt text for logo image
-//    - Button remains keyboard-navigable
-//    - Image priority loading (critical above-fold asset)
-//    - No layout shift (explicit width/height)
-//
-// REQUIRED CSS (add to globals.css):
-//
-// @layer utilities {
-//   .text-shadow-glow {
-//     text-shadow: 0 0 20px rgba(148, 163, 184, 0.4),
-//                  0 0 10px rgba(148, 163, 184, 0.2);
-//   }
-// }
-//
-// IMAGE SETUP:
-// - Place logo file at: public/images/logo.png
-// - Recommended: SVG or PNG with transparent background
-// - Ideal size: 64x64px or larger (Next.js will optimize)
-// - Format: WebP, PNG, or SVG preferred

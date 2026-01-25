@@ -4,7 +4,8 @@
 export type EventCategory = 
   | "flagship" 
   | "competition" 
-  | "panel" 
+  | "panel"
+  | "performance" 
   | "inauguration" 
   | "workshop";
 
@@ -29,9 +30,7 @@ export const events: Event[] = [
     description: "This event brings together Students, Young Professionals, and esteemed experts to explore current and emerging trends and opportunities in technology and leadership. The theme underscores the transformative power of technology in shaping the present and the future.",
     category: "panel",
     images: [
-      "/images/events/DSSYWLC-24-1.jpg",
-      "/images/events/DSSYWLC-24-2.jpg",
-      "/images/events/DSSYWLC-24-3.jpg"
+      "/images/events/DSSYWLC-24-1.jpg"
     ],
     year: "2025",
     size: "large"
@@ -63,7 +62,7 @@ export const events: Event[] = [
 
 
   // STANDARD TILES - Regular events
-  {
+  /* {
     id: "Web-Wizardry",
     title: "Web Wizardry (Web Designing Competition)",
     description: "Web Wizardry challenged participants to create innovative, user-friendly websites showcasing strong design.",
@@ -100,7 +99,7 @@ export const events: Event[] = [
     ],
     year: "2025",
     size: "standard"
-  },
+  }, */
 
 
 
@@ -108,31 +107,40 @@ export const events: Event[] = [
   // STANDARD TILES
   {
     id: "Logo-Logic",
-    title: "Logo Logic: Design Beyond Imagination (Logo Designing Competition)",
+    title: "Logo Logic: Design Beyond Imagination",
     description: "Logo Logic challenged participants to design creative and meaningful logos with strong brand identity.",
     category: "competition",
     images: [
-      "/images/events/logo-logic-1.jpg",
-      "/images/events/logo-logic-2.jpg"
+      "/images/events/logo-logic-1.jpg"
     ],
     year: "2025",
     size: "standard"
   },
   {
     id: "entrepreneurial-horizons",
-    title: "Entrepreneurial Horizons: Inspiring Journeys from Industry Leaders",
-    description: "The session featured industry experts sharing entrepreneurial journeys, insights on innovation and leadership.",
-    category: "panel",
+    title: "Vocal Vibes: Unleash your Melody (Antakshari)",
+    description: "Vocal Vibes featured a lively game of Antakshari, where participants unleashed their musical talents.",
+    category: "performance",
     images: [
-      "/images/events/entrepreneurial-horizons-1.jpg",
-      "/images/events/entrepreneurial-horizons-2.jpg"
+      "/images/events/vocal-vibes-1.jpg",
     ],
     year: "2025",
     size: "standard"
   },
 
-    // WIDE TILE - Horizontal emphasis (2x1 on desktop)
   {
+    id: "Inaugural-Ceremony-(AP-S)",
+    title: "Inaugural Ceremony of the IEEE BVICAM Antennas and Propagation Society (AP-S) Students’ Branch Chapter",
+    description: "Bharati Vidyapeeth’s Institute of Computer Applications and Management (BVICAM), New Delhi, proudly hosted the Inaugural Ceremony of the IEEE BVICAM Antennas and Propagation Society (AP-S) Students’ Branch Chapter on 30th April 2025.",
+    category: "inauguration",
+    images: [
+      "/images/events/aps-2.jpg"
+    ],
+    year: "2025",
+    size: "wide"
+  },
+    // WIDE TILE - Horizontal emphasis (2x1 on desktop)
+  /* {
     id: "wienove-2.0",
     title: "WIENOVA 2.0 (Event by WIE Team)",
     description: "WIENOVA 2.0 empowered women in engineering by highlighting leadership, career growth, and breaking barriers in STEM through shared insights and inspiration.",
@@ -142,9 +150,9 @@ export const events: Event[] = [
     ],
     year: "2025",
     size: "wide"
-  },
+  }, */
 
-  {
+  /* {
     id: "ieee-young-professionals-meet",
     title: "IEEE Young Professionals Meet",
     description: "The IEEE Young Professionals Meet focused on career growth, leadership, and networking.",
@@ -177,7 +185,7 @@ export const events: Event[] = [
     ],
     year: "2025",
     size: "standard"
-  }
+  } */
 ];
 
 // Helper function to get events by size (for layout organization)

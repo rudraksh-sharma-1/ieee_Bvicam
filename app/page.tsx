@@ -14,6 +14,7 @@ const About = dynamic(() => import("@/components/about"), {
   ssr: true,
 });
 
+// Use reduced events component for home page (5 featured events)
 const Events = dynamic(() => import("@/components/events"), {
   ssr: true,
 });
@@ -22,7 +23,6 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Wait for loading screen to complete before showing main content
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 2500);
@@ -43,11 +43,6 @@ export default function Home() {
           <Hero />
           <About />
           <Events />
-          
-          {/* Future sections will be added here:
-          <Team />
-          <Footer />
-          */}
         </main>
       </div>
     </>

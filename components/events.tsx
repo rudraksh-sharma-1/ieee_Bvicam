@@ -91,22 +91,21 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
   );
 }
 
-// Individual event card component with data-driven sizing
 function EventCard({ event, index }: { event: Event; index: number }) {
-  // Map event size to Tailwind grid classes (data-driven)
+  
   const sizeClasses = {
-    hero: "md:col-span-2 md:row-span-2",      // Large feature (2x2)
-    large: "md:col-span-2 md:row-span-1",     // Wide feature (2x1)
-    wide: "md:col-span-2 md:row-span-1",      // Horizontal (2x1)
-    standard: "md:col-span-1 md:row-span-1"   // Regular (1x1)
+    hero: "md:col-span-2 md:row-span-2",      
+    large: "md:col-span-2 md:row-span-1",    
+    wide: "md:col-span-2 md:row-span-1",      
+    standard: "md:col-span-1 md:row-span-1"   
   };
 
-  // Adjust image height based on card size for better proportions
+  
   const imageHeightClasses = {
-    hero: "h-64 md:h-80",      // Taller for hero
-    large: "h-52 md:h-64",     // Medium-tall for large
-    wide: "h-48 md:h-56",      // Medium for wide
-    standard: "h-48"           // Standard for regular
+    hero: "h-64 md:h-80",      
+    large: "h-52 md:h-64",    
+    wide: "h-48 md:h-56",      
+    standard: "h-48"           
   };
 
   return (
@@ -116,7 +115,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{
         duration: 0.6,
-        delay: index * 0.08, // Slightly faster stagger for smoother reveal
+        delay: index * 0.08, 
         ease: [0.22, 1, 0.36, 1]
       }}
       className={`group relative bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(113,113,122,0.15)] ${sizeClasses[event.size]}`}
@@ -149,7 +148,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
           {event.description}
         </p>
 
-        {/* Optional year tag */}
+        {/* year tag */}
         {event.year && (
           <div className="mt-4 text-xs text-zinc-600">
             {event.year}
@@ -198,18 +197,7 @@ export default function Events() {
           </motion.p>
         </motion.div>
 
-        {/* Bento Grid Layout - Editorial hierarchy */}
-        {/* 
-          LAYOUT STRUCTURE (Desktop - 4 columns):
-          
-          Row 1: [Hero 2x2] [Standard] [Standard]
-          Row 2:           [Large 2x1] [Standard]
-          Row 3: [Wide 2x1] [Standard] [Standard]
-          Row 4: [Wide 2x1] [Standard]
-          
-          Mobile: All stack vertically
-          Tablet: 2 columns with reduced spanning
-        */}
+        {/* Bento Grid Layout*/}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
           {events.map((event, index) => (
             <EventCard key={event.id} event={event} index={index} />
@@ -232,25 +220,3 @@ export default function Events() {
     </section>
   );
 }
-
-// WHY CLIENT COMPONENT:
-// - Requires framer-motion for scroll-triggered animations (whileInView)
-// - Image carousel requires useState for current index tracking
-// - Interactive hover states and transitions
-// - Performance: All animations use viewport intersection (no scroll listeners)
-// - GPU-safe: Only transform/opacity animations
-//
-// PERFORMANCE CONSIDERATIONS:
-// - Animations trigger once (viewport.once = true)
-// - Staggered delays prevent overwhelming render (0.1s between cards)
-// - Next.js Image optimization for all event photos
-// - Carousel uses CSS transitions only (no JS animation loops)
-// - hover:opacity-100 pattern for GPU acceleration
-// - No auto-play carousels (manual user control only)
-//
-// SCALABILITY:
-// - Event data completely separated in lib/events.ts
-// - Easy to add/remove events without touching UI
-// - Bento grid auto-adjusts based on featured flag
-// - Responsive grid: 1 col mobile → 2 col tablet → 3 col desktop
-// - Featured events span 2 columns on desktop for visual hierarchy

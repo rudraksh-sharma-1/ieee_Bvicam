@@ -48,9 +48,3 @@ export default function LoadingScreen() {
     </div>
   );
 }
-
-// WHY CLIENT COMPONENT:
-// - Requires useState for visibility state
-// - Requires useEffect for mount/unmount timing
-// - Transition logic needs to run in browser
-// - Minimal JS footprint (~2KB gzipped)

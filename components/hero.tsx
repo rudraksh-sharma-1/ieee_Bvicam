@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Lightweight count-up hook using RAF
 function getDuration(end: number) {
@@ -48,9 +49,22 @@ function useCountUp(
 
 export default function Hero() {
   const [startCount, setStartCount] = useState(false);
-  const membersCount = useCountUp(500, startCount, getDuration(500));
-  const eventsCount = useCountUp(50, startCount, getDuration(50));
-  const yearsCount = useCountUp(10, startCount, getDuration(10));
+  const router = useRouter();
+  const membersCount = useCountUp(300, startCount, getDuration(500));
+  const eventsCount = useCountUp(30, startCount, getDuration(50));
+  const yearsCount = useCountUp(5, startCount, getDuration(10));
+
+  const handleExploreEvents = () => {
+    router.push("/events/ieee-education-week-2025");
+  };
+
+  const handleLearnMore = () => {
+    const aboutSection = document.getElementById("about");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section
       id="home"
@@ -147,14 +161,16 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               size="lg"
-              className="bg-zinc-100 text-zinc-950 hover:bg-zinc-200 px-8 py-6 text-lg font-semibold"
+              onClick={handleExploreEvents}
+              className="bg-zinc-100 text-zinc-950 hover:bg-zinc-200 px-8 py-6 text-lg font-semibold cursor-pointer"
             >
               Explore Events
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-slate-700 text-zinc-300 hover:bg-zinc-800/50 hover:text-zinc-100 px-8 py-6 text-lg"
+              onClick={handleLearnMore}
+              className="border-slate-700 text-zinc-300 hover:bg-zinc-800/50 hover:text-zinc-100 px-8 py-6 text-lg cursor-pointer"
             >
               Learn More
             </Button>

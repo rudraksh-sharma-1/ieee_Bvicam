@@ -26,9 +26,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-// WHY SERVER COMPONENT:
-// - No interactivity needed
-// - Purely structural wrapper
-// - Metadata generation happens at build time
-// - Font loading optimized by Next.js automatically
