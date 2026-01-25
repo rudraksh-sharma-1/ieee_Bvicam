@@ -42,7 +42,6 @@ export const events: Event[] = [
     description: "Branch presentations showcased innovation and student initiatives across institutes.",
     category: "panel",
     images: [
-      "/images/events/branch-presentaion-1.jpg",
       "/images/events/branch-presentation-2.jpg"
     ],
     year: "2025",

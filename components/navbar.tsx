@@ -70,7 +70,7 @@ export default function Navbar() {
           >
             <div className="relative w-32 h-16 sm:w-40 sm:h-20 md:w-48 md:h-24 flex items-center justify-center">
               <Image
-                src="/images/SBIEEE_logo.webp"
+                src="/images/SBIEEE_Logo.webp"
                 alt="IEEE BVICAM Logo"
                 fill
                 sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, 192px"
