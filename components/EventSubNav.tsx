@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 import type { EventDetail, EventType } from "@/lib/event-details";
 
 interface EventSubNavProps {
@@ -13,9 +14,20 @@ interface EventSubNavProps {
 
 export default function EventSubNav({ currentEventSlug, events, type }: EventSubNavProps) {
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Filter to only show events of the same type (past with past, upcoming with upcoming)
   const filteredEvents = events.filter(event => event.type === type && event.slug !== "upcoming");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // When scrolled down more than 72px (top-18 = 4.5rem = 72px), move to top-0
+      setIsScrolled(window.scrollY > 72);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (filteredEvents.length <= 1) {
     return null; // Don't show sub-nav if there's only one event
@@ -23,7 +35,10 @@ export default function EventSubNav({ currentEventSlug, events, type }: EventSub
 
   return (
     <motion.div 
-      className="sticky top-18 z-30 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/50"
+      className="sticky z-30 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/50 transition-all duration-300"
+      style={{
+        top: isScrolled ? "0px" : "4.5rem" // 4.5rem = top-18
+      }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
