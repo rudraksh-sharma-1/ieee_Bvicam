@@ -162,7 +162,7 @@ function ExecomCard({ member, index }: { member: ExecomMember; index: number }) 
       className="group text-center"
     >
       {/* Larger circular avatar */}
-      <div className="relative w-28 h-28 mx-auto mb-3 bg-zinc-800 rounded-full overflow-hidden border border-zinc-700 transition-all duration-300 hover:border-zinc-600">
+      <div className="relative w-40 h-40 mx-auto mb-3 bg-zinc-800 rounded-full overflow-hidden border border-zinc-700 transition-all duration-300 hover:border-zinc-600">
         <Image
           src={member.image}
           alt={member.name}
@@ -261,7 +261,7 @@ export default function Team() {
         {/* TIER 3: Execom */}
         <div>
           <h3 className="text-2xl font-semibold text-zinc-100 mb-8 text-center">
-            Executive Committee
+            Execomm
           </h3>
           {/* Centered grid with 5 columns per row */}
           <div className="flex justify-center">

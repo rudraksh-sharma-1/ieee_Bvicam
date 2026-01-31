@@ -221,34 +221,54 @@ export const teamData: TeamData = {
   execom: [
     {
       id: "execom-1",
-      name: "execom-1",
-      image: "/images/team/user_template.png"
+      name: "Rudraksh Sharma",
+      image: "/images/team/Rudraksh.png"
     },
     {
       id: "execom-2",
-      name: "execom-1",
-      image: "/images/team/user_template.png"
+      name: "Ankit Kumar",
+      image: "/images/team/Ankit_kumar.jpg"
     },
     {
       id: "execom-3",
-      name: "execom-1",
-      image: "/images/team/user_template.png"
+      name: "Mayan Wadhawan",
+      image: "/images/team/mayan_wadhawan.JPG"
     },
     {
       id: "execom-4",
-      name: "execom-1",
-      image: "/images/team/user_template.png"
+      name: "Piyush Goel",
+      image: "/images/team/piyush_goyal.jpg"
     },
     {
       id: "execom-5",
-      name: "execom-1",
-      image: "/images/team/user_template.png"
+      name: "Yugansh Gupta",
+      image: "/images/team/Yugansh_gupta.jpg"
     },
     {
       id: "execom-6",
-      name: "execom-1",
-      image: "/images/team/user_template.png"
-    }
+      name: "Harsh",
+      image: "/images/team/harsh.jpg"
+    },
+    {
+      id: "execom-7",
+      name: "Arul Sarabhai",
+      image: "/images/team/arul_sarabhai.jpg"
+    },
+    {
+      id: "execom-8",
+      name: "Aman Kumar",
+      image: "/images/team/Aman_kumar.jpg"
+    },
+    {
+      id: "execom-9",
+      name: "Harsh Rai",
+      image: "/images/team/harsh_rai.jpg"
+    },
+    {
+      id: "execom-10",
+      name: "Nityam Kumar Tiwari",
+      image: "/images/team/Nityam_kumar_tiwari.jpg"
+    },
   ]
 };
 

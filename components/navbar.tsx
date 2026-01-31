@@ -16,6 +16,7 @@ import {
 const baseNavLinks = [
   { id: "about", label: "About", scrollTo: "about" },
   { id: "chapters", label: "Chapters", scrollTo: "chapters" },
+  { id: "team", label: "Team", scrollTo: "team" },
 ];
 
 // Events dropdown items
