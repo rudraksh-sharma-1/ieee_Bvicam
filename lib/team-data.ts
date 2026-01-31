@@ -222,7 +222,7 @@ export const teamData: TeamData = {
     {
       id: "execom-1",
       name: "Rudraksh Sharma",
-      image: "/images/team/Rudraksh.png"
+      image: "/images/team/Rudraksh.webp"
     },
     {
       id: "execom-2",
