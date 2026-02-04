@@ -15,7 +15,6 @@ import {
 // Base nav links (non-dropdown)
 const baseNavLinks = [
   { id: "about", label: "About", scrollTo: "about" },
-  { id: "chapters", label: "Chapters", scrollTo: "chapters" },
   { id: "team", label: "Team", scrollTo: "team" },
 ];
 
@@ -23,6 +22,14 @@ const baseNavLinks = [
 const eventsDropdownItems = [
   { label: "Past Events", href: "/events/ieee-education-week-2025" },
   { label: "Upcoming Events", href: "/events/upcoming" },
+];
+
+// Chapters dropdown items
+const chaptersDropdownItems = [
+  { label: "Computer Society", href: "/chapters/CS" },
+  { label: "Systems, Man, and Cybernetics Society", href: "/chapters/SMC" },
+  { label: "Antennas and Propagation Society", href: "/chapters/AP-S" },
+  { label: "Women in Engineering", href: "/chapters/WIE" },
 ];
 
 export default function Navbar() {
@@ -101,6 +108,30 @@ export default function Navbar() {
               </button>
             ))}
 
+            {/* Chapters Dropdown */}
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <button className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50 flex items-center gap-1">
+                  Chapters
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-zinc-900 border-zinc-800">
+                {chaptersDropdownItems.map((item) => (
+                  <DropdownMenuItem key={item.label} asChild>
+                    <Link
+                      href={item.href}
+                      className="text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800 cursor-pointer"
+                    >
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {/* Events Dropdown */}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
@@ -171,6 +202,21 @@ export default function Navbar() {
                   {link.label}
                 </button>
               ))}
+
+              {/* Chapters submenu in mobile */}
+              <div className="border-t border-zinc-800/50 mt-2 pt-2">
+                <div className="px-4 py-1 text-xs uppercase tracking-wider text-zinc-500">Chapters</div>
+                {chaptersDropdownItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors block"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
 
               {/* Events submenu in mobile */}
               <div className="border-t border-zinc-800/50 mt-2 pt-2">

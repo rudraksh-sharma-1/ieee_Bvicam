@@ -131,14 +131,14 @@ export const teamData: TeamData = {
         },
         {
           id: "wie-secretary",
-          name: "Kajal Mishra Md",
+          name: "Kajal Mishra",
           role: "secretary",
           image: "/images/team/Kajal_Mishra.webp",
           linkedIn: "https://www.linkedin.com/in/kajal-mishra-06924430a/",
         },
         {
           id: "wie-treasurer",
-          name: "Nazare Alam",
+          name: "Md Nazare Alam",
           role: "treasurer",
           image: "/images/team/md_nazare_alam.webp",
           linkedIn: "https://www.linkedin.com/in/imnazarealam/",
