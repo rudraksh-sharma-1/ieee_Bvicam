@@ -7,6 +7,35 @@ export interface ChapterMember {
   linkedIn?: string;
 }
 
+export interface GradeData {
+  grade: string;
+  count: number;
+  male?: number;
+  female?: number;
+  unknown?: number;
+}
+
+export interface GenderData {
+  label: string;
+  value: number;
+  percentage: number;
+  color: string;
+}
+
+export interface TechFocusData {
+  area: string;
+  count: number;
+}
+
+export interface IEEEAnalytics {
+  sectionName: string;
+  totalMembers: number;
+  gradeDistribution: GradeData[];
+  genderDistribution: GenderData[];
+  technologyFocus: TechFocusData[];
+  gradeGenderBreakdown: GradeData[];
+}
+
 export interface ChapterStat {
   id: string;
   label: string;
@@ -33,6 +62,10 @@ export interface ChapterDetail {
   description: string;
   longDescription: string;
   stats: ChapterStat[];
+  ieeeAnalytics?: {
+    delhiSection: IEEEAnalytics;
+    studentBranch: IEEEAnalytics;
+  };
   team: ChapterMember[];
   pastEvents: PastEvent[];
   metadata: {
@@ -74,6 +107,66 @@ export const chapterDetails: ChapterDetail[] = [
         description: "Members achieved industry certifications"
       }
     ],
+    ieeeAnalytics: {
+      delhiSection: {
+        sectionName: "Delhi Section Chapter, C16",
+        totalMembers: 1454,
+        gradeDistribution: [
+          { grade: 'Student Member', count: 926 },
+          { grade: 'Graduate Student', count: 248 },
+          { grade: 'Member', count: 203 },
+          { grade: 'Senior Member', count: 62 },
+          { grade: 'Associate Member', count: 7 },
+          { grade: 'Fellow', count: 3 },
+          { grade: 'Life Senior', count: 4 },
+          /* { grade: 'Affiliate', count: 1 }, */
+        ],
+        genderDistribution: [
+          { label: 'Male', value: 831, percentage: 57.15, color: '#52525b' },
+          { label: 'Female', value: 339, percentage: 23.31, color: '#fb923c' },
+          { label: 'Unknown', value: 284, percentage: 19.53, color: '#94a3b8' },
+        ],
+        technologyFocus: [
+          { area: 'Computing and Processing (Hardware/Software)', count: 600 },
+          { area: 'Engineering Profession', count: 300 },
+          { area: 'Other', count: 250 },
+          { area: 'Components, Circuits, Devices and Systems', count: 150 },
+          { area: 'Communication, Networking and Broadcasting', count: 100 },
+          { area: 'General Topics for Engineers (Math, Science...)', count: 80 },
+          { area: 'Robotics and Control Systems', count: 50 },
+          { area: 'Power, Energy and Industry Applications', count: 40 },
+        ],
+        gradeGenderBreakdown: [
+          { grade: 'Student Member', count: 926, male: 500, female: 200, unknown: 226 },
+          { grade: 'Graduate Student Member', count: 248, male: 100, female: 50, unknown: 98 },
+          { grade: 'Member', count: 203, male: 130, female: 50, unknown: 23 },
+          { grade: 'Senior Member', count: 62, male: 40, female: 10, unknown: 12 },
+        ],
+      },
+      studentBranch: {
+        sectionName: "Bharati Vidyapeeth's Institute of Computer Applications and Management, C16",
+        totalMembers: 195,
+        gradeDistribution: [
+          { grade: 'Graduate Student Member', count: 195 },
+        ],
+        genderDistribution: [
+          { label: 'Male', value: 55, percentage: 28.21, color: '#52525b' },
+          { label: 'Female', value: 24, percentage: 12.31, color: '#fb923c' },
+          { label: 'Unknown', value: 116, percentage: 59.49, color: '#94a3b8' },
+        ],
+        technologyFocus: [
+          { area: 'Computing and Processing (Hardware/Software)', count: 120 },
+          { area: 'Components, Circuits, Devices and Systems', count: 50 },
+          { area: 'Communication, Networking and Broadcasting', count: 30 },
+          { area: 'Engineering Profession', count: 25 },
+          { area: 'Aerospace', count: 15 },
+          { area: 'Bioengineering', count: 10 },
+        ],
+        gradeGenderBreakdown: [
+          { grade: 'Graduate Student Member', count: 195, male: 55, female: 24, unknown: 116 },
+        ],
+      },
+    },
     team: [
       {
         id: "cs-chair",

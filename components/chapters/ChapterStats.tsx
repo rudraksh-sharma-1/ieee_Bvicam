@@ -1,124 +1,133 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import type { ChapterStat } from "@/lib/chapter-details";
+import { useRef, useState } from "react";
+import type { IEEEAnalytics } from "@/lib/chapter-details";
 
-// Lightweight count-up using RAF
-function useCountUp(end: number, start: boolean, duration: number = 2000) {
-  const [count, setCount] = useState(0);
-  const startTimeRef = useRef<number | null>(null);
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (!start) return;
-
-    const animate = (timestamp: number) => {
-      if (!startTimeRef.current) startTimeRef.current = timestamp;
-
-      const progress = Math.min(
-        (timestamp - startTimeRef.current) / duration,
-        1
-      );
-
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(easeOut * end));
-
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(animate);
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [start, end, duration]);
-
-  return count;
-}
-
-// Bar Graph - Interactive vertical bars
-function BarGraph({ value, isInView }: { value: number; isInView: boolean }) {
+// Dataset Chart - Vertical Bar Chart (Region × Grade)
+function DatasetChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   
-  // Generate 12 months of data
-  const monthlyData = Array.from({ length: 12 }, (_, i) => {
-    const base = value / 12;
-    const variance = base * 0.3;
-    return Math.floor(base + (Math.random() - 0.5) * variance);
-  });
-
-  const maxValue = Math.max(...monthlyData);
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const gradeData = data.gradeDistribution;
+  const maxValue = Math.max(...gradeData.map(d => d.count));
+  
+  // Calculate nice Y-axis ticks with padding, starting from 0
+  const getYAxisTicks = () => {
+    const tickCount = 4; // Reduced to 4 intervals so we have 5 points including 0
+    // Add 20% padding to maxValue so smaller bars are more visible
+    const paddedMax = Math.ceil(maxValue * 1.1);
+    const step = Math.ceil(paddedMax / tickCount);
+    const ticks = [0]; 
+    for (let i = 1; i <= tickCount; i++) {
+      ticks.push(step * i);
+    }
+    return ticks;
+  };
+  
+  const yAxisTicks = getYAxisTicks();
+  const displayMaxValue = yAxisTicks[yAxisTicks.length - 1];
 
   return (
-    <div className="h-48">
-      <div className="flex items-end justify-between gap-1 h-40">
-        {monthlyData.map((val, i) => {
-          const height = (val / maxValue) * 100;
-          
-          return (
-            <div key={i} className="relative flex-1 flex flex-col items-center group">
-              <motion.div
-                initial={{ height: 0 }}
-                animate={{ height: isInView ? `${height}%` : 0 }}
-                transition={{ 
-                  duration: 1, 
-                  delay: i * 0.05,
-                  ease: [0.22, 1, 0.36, 1] 
-                }}
-                onMouseEnter={() => setHoveredBar(i)}
-                onMouseLeave={() => setHoveredBar(null)}
-                className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t cursor-pointer hover:from-blue-500 hover:to-blue-300 transition-colors relative"
-              >
-                {/* Tooltip */}
-                {hoveredBar === i && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded whitespace-nowrap z-20"
-                  >
-                    {months[i]}: {val}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-800" />
-                  </motion.div>
-                )}
-              </motion.div>
-            </div>
-          );
-        })}
+    <div className="h-80 flex">
+      {/* Y-axis */}
+      <div className="flex flex-col justify-end pr-3 text-sm text-zinc-600 font-medium">
+        {[...yAxisTicks].reverse().map((tick, i) => (
+          <div 
+            key={i} 
+            className="flex items-center"
+            style={{ 
+              height: i === yAxisTicks.length - 1 ? 'auto' : `${100 / (yAxisTicks.length - 1)}%`,
+              paddingBottom: i === yAxisTicks.length - 1 ? '0.5rem' : '0'
+            }}
+          >
+            {tick}
+          </div>
+        ))}
       </div>
-      <div className="flex justify-between text-[10px] text-zinc-600 mt-2 px-1">
-        <span>{months[0]}</span>
-        <span>{months[5]}</span>
-        <span>{months[11]}</span>
+
+      {/* Chart area */}
+      <div className="flex-1 flex flex-col">
+        <div className="flex-1 relative border-b border-l border-zinc-300">
+          {/* Horizontal grid lines */}
+          <div className="absolute inset-0 flex flex-col justify-start">
+            {[...yAxisTicks].reverse().map((_, i) => (
+              <div 
+                key={i} 
+                className="border-t border-zinc-200"
+                style={{ 
+                  height: i === yAxisTicks.length - 1 ? '0' : `${100 / (yAxisTicks.length - 1)}%`
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Bars */}
+          <div className="absolute inset-0 flex items-end justify-between gap-1.5 pb-0 pl-1">
+            {gradeData.map((item, i) => {
+              // Calculate height based on padded max value so smaller bars are visible
+              const height = displayMaxValue > 0 ? (item.count / displayMaxValue) * 100 : 0;
+              
+              return (
+                <div key={i} className="relative flex-1 flex flex-col items-center h-full justify-end">
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ 
+                      height: isInView ? `${height}%` : 0, 
+                      opacity: isInView ? 1 : 0 
+                    }}
+                    transition={{ 
+                      duration: 1, 
+                      delay: i * 0.08,
+                      ease: [0.22, 1, 0.36, 1] 
+                    }}
+                    onMouseEnter={() => setHoveredBar(i)}
+                    onMouseLeave={() => setHoveredBar(null)}
+                    className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t cursor-pointer hover:from-blue-500 hover:to-blue-300 transition-colors relative"
+                  >
+                    {hoveredBar === i && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded whitespace-nowrap z-20 shadow-lg"
+                      >
+                        {item.grade}: {item.count}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-800" />
+                      </motion.div>
+                    )}
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* X-axis labels */}
+        <div className="flex justify-between gap-1.5 mt-2">
+          {gradeData.map((item, i) => (
+            <div key={i} className="flex-1 text-center text-sm text-zinc-600 font-medium px-0.5">
+              <div className="break-words leading-tight">
+                {item.grade.length > 12 ? item.grade.split(' ')[0] : item.grade}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
-
-// Pie Chart - Donut style with segments
-function PieChart({ value, isInView }: { value: number; isInView: boolean }) {
+// Gender Chart - Donut/Pie Chart
+function GenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
   const [hoveredSegment, setHoveredSegment] = useState<number | null>(null);
   
-  // Create segments that add up to the total value
-  const segments = [
-    { label: 'Completed', value: Math.floor(value * 0.6), color: 'rgb(59, 130, 246)' },
-    { label: 'In Progress', value: Math.floor(value * 0.25), color: 'rgb(96, 165, 250)' },
-    { label: 'Planned', value: Math.floor(value * 0.15), color: 'rgb(147, 197, 253)' },
-  ];
-
-  const total = segments.reduce((sum, seg) => sum + seg.value, 0);
-  let currentAngle = -90; // Start from top
+  const genderData = data.genderDistribution;
+  let currentAngle = -90;
 
   return (
-    <div className="relative flex items-center justify-center h-64">
-      <svg width="200" height="200" className="transform">
-        {segments.map((segment, i) => {
-          const percentage = (segment.value / total) * 100;
-          const angle = (percentage / 100) * 360;
-          const radius = 70;
+    <div className="relative flex items-center justify-center h-56">
+      <svg width="180" height="180">
+        {genderData.map((segment, i) => {
+          const angle = (segment.percentage / 100) * 360;
+          const radius = 65;
           const circumference = 2 * Math.PI * radius;
           const strokeDasharray = `${(angle / 360) * circumference} ${circumference}`;
           const rotation = currentAngle;
@@ -128,17 +137,17 @@ function PieChart({ value, isInView }: { value: number; isInView: boolean }) {
           return (
             <motion.circle
               key={i}
-              cx="100"
-              cy="100"
+              cx="90"
+              cy="90"
               r={radius}
               fill="none"
               stroke={segment.color}
-              strokeWidth="20"
+              strokeWidth="18"
               strokeDasharray={strokeDasharray}
               initial={{ strokeDashoffset: circumference }}
               animate={{ strokeDashoffset: isInView ? 0 : circumference }}
               transition={{ duration: 1.5, delay: i * 0.2, ease: [0.22, 1, 0.36, 1] }}
-              style={{ transform: `rotate(${rotation}deg)`, transformOrigin: '100px 100px' }}
+              style={{ transform: `rotate(${rotation}deg)`, transformOrigin: '90px 90px' }}
               onMouseEnter={() => setHoveredSegment(i)}
               onMouseLeave={() => setHoveredSegment(null)}
               className="cursor-pointer hover:opacity-80 transition-opacity"
@@ -147,274 +156,174 @@ function PieChart({ value, isInView }: { value: number; isInView: boolean }) {
         })}
       </svg>
       
-      {/* Center display */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <div className="text-3xl font-bold text-zinc-100">{total}</div>
+        <div className="text-2xl font-bold text-zinc-100">{data.totalMembers}</div>
         <div className="text-xs text-zinc-400">Total</div>
       </div>
 
-      {/* Legend with hover info */}
       {hoveredSegment !== null && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-100 text-xs px-3 py-2 rounded whitespace-nowrap"
+          className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-100 text-xs px-3 py-2 rounded whitespace-nowrap shadow-lg z-20"
         >
-          {segments[hoveredSegment].label}: {segments[hoveredSegment].value}
+          {genderData[hoveredSegment].label}: {genderData[hoveredSegment].value} ({genderData[hoveredSegment].percentage}%)
         </motion.div>
       )}
     </div>
   );
 }
 
-// Progress Chart - Horizontal progress bar with gradient
-function ProgressChart({ value, max, isInView }: { value: number; max: number; isInView: boolean }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const percentage = (value / max) * 100;
+// Technology Focus Area - Pareto with cumulative percentage line
+function TechnologyFocusChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
+  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
   
+  const techData = data.technologyFocus;
+  const totalCount = techData.reduce((sum, item) => sum + item.count, 0);
+  const maxValue = Math.max(...techData.map(d => d.count));
+  
+  // Calculate cumulative percentages
+  let cumulativePercentage = 0;
+  const dataWithCumulative = techData.map(item => {
+    const percentage = (item.count / totalCount) * 100;
+    cumulativePercentage += percentage;
+    return {
+      ...item,
+      percentage,
+      cumulative: cumulativePercentage
+    };
+  });
+
   return (
-    <div 
-      className="space-y-4"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Main progress bar */}
-      <div className="relative">
-        <div className="h-8 bg-zinc-800 rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: isInView ? `${percentage}%` : 0 }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-            className="h-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 relative"
-          >
-            {/* Shimmer effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            />
-          </motion.div>
-        </div>
+    <div className="space-y-2.5 relative">
+      {dataWithCumulative.map((item, i) => {
+        const barWidth = (item.count / maxValue) * 100;
         
-        {/* Value label */}
-        <motion.div 
-          className="absolute inset-0 flex items-center justify-center text-sm font-bold"
-          style={{ color: percentage > 50 ? 'white' : 'rgb(161, 161, 170)' }}
-          animate={{ scale: isHovered ? 1.1 : 1 }}
-          transition={{ duration: 0.2 }}
-        >
-          {value} / {max}
-        </motion.div>
-      </div>
-
-      {/* Progress indicators */}
-      <div className="flex justify-between text-xs text-zinc-600">
-        <span>0</span>
-        <span className="text-zinc-400">{Math.round(percentage)}% Complete</span>
-        <span>{max}</span>
-      </div>
-
-      {/* Milestone markers */}
-      <div className="relative h-2">
-        {[25, 50, 75].map((milestone) => (
-          <div
-            key={milestone}
-            className="absolute top-0 h-2 w-px bg-zinc-700"
-            style={{ left: `${milestone}%` }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Stock Chart - Line chart with area fill
-function StockChart({ value, isInView }: { value: number; isInView: boolean }) {
-  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
-  
-  // Generate 30 days of trend data
-  const dataPoints = Array.from({ length: 30 }, (_, i) => {
-    const trend = i / 30; // Upward trend
-    const base = value * (0.5 + trend * 0.5);
-    const variance = base * 0.15;
-    return base + (Math.random() - 0.5) * variance;
-  });
-
-  const maxValue = Math.max(...dataPoints);
-  const minValue = Math.min(...dataPoints);
-  const range = maxValue - minValue;
-
-  const points = dataPoints.map((val, i) => {
-    const x = (i / (dataPoints.length - 1)) * 100;
-    const y = 100 - ((val - minValue) / range) * 100;
-    return { x, y, value: Math.floor(val) };
-  });
-
-  const pathD = points.map((p, i) => 
-    `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`
-  ).join(' ');
-
-  return (
-    <div className="h-48 relative">
-      <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" className="overflow-visible">
-        {/* Grid lines */}
-        {[0, 25, 50, 75, 100].map(y => (
-          <line
-            key={y}
-            x1="0"
-            y1={y}
-            x2="100"
-            y2={y}
-            stroke="rgb(39, 39, 42)"
-            strokeWidth="0.5"
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
-
-        {/* Area under the line */}
-        <motion.path
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: isInView ? 1 : 0, opacity: isInView ? 0.3 : 0 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-          d={`${pathD} L 100 100 L 0 100 Z`}
-          fill="url(#stockGradient)"
-        />
-
-        {/* Line */}
-        <motion.path
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: isInView ? 1 : 0 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-          d={pathD}
-          fill="none"
-          stroke="rgb(34, 197, 94)"
-          strokeWidth="2"
-          vectorEffect="non-scaling-stroke"
-        />
-
-        {/* Data points */}
-        {points.map((point, i) => (
-          <motion.circle
-            key={i}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: isInView ? 1 : 0, opacity: isInView ? 1 : 0 }}
-            transition={{ duration: 0.3, delay: 1.5 + i * 0.02 }}
-            cx={point.x}
-            cy={point.y}
-            r="1.5"
-            fill="rgb(34, 197, 94)"
-            className="cursor-pointer"
-            onMouseEnter={() => setHoveredPoint(i)}
-            onMouseLeave={() => setHoveredPoint(null)}
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
-
-        <defs>
-          <linearGradient id="stockGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgb(34, 197, 94)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="rgb(34, 197, 94)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* Tooltip */}
-      {hoveredPoint !== null && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded pointer-events-none z-20"
-          style={{
-            left: `${points[hoveredPoint].x}%`,
-            top: `${points[hoveredPoint].y}%`,
-            transform: 'translate(-50%, -120%)'
-          }}
-        >
-          Day {hoveredPoint + 1}: {points[hoveredPoint].value}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-800" />
-        </motion.div>
-      )}
-
-      {/* Trend indicator */}
-      <div className="absolute top-2 right-2 flex items-center gap-1 text-xs text-green-500">
-        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-        </svg>
-        Trending Up
-      </div>
-    </div>
-  );
-}
-
-// Stat Card Components
-function LargeStatCard({ 
-  stat, 
-  index, 
-  chartType 
-}: { 
-  stat: ChapterStat; 
-  index: number; 
-  chartType: 'bar' | 'stock' 
-}) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const count = useCountUp(stat.value, isInView, 1500);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="relative bg-zinc-900 rounded-xl border border-zinc-800 p-6 transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] overflow-hidden group"
-    >
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-start justify-between mb-2">
-          <div>
-            <div className="text-4xl font-bold text-zinc-100 mb-1">
-              {count}
-              {stat.unit && <span className="text-zinc-400 text-2xl ml-1">{stat.unit}</span>}
+        return (
+          <div key={i} className="relative">
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-[11px] text-zinc-400 truncate flex-1 pr-2 leading-tight">{item.area}</span>
+              <span className="text-[11px] text-zinc-500 font-medium">{item.count}</span>
             </div>
-            <h3 className="text-lg font-semibold text-zinc-300">
-              {stat.label}
-            </h3>
+            <div className="relative h-5 bg-zinc-800 rounded overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: isInView ? `${barWidth}%` : 0 }}
+                transition={{ 
+                  duration: 1, 
+                  delay: i * 0.08,
+                  ease: [0.22, 1, 0.36, 1] 
+                }}
+                onMouseEnter={() => setHoveredBar(i)}
+                onMouseLeave={() => setHoveredBar(null)}
+                className="h-full bg-gradient-to-r from-blue-600 to-blue-400 cursor-pointer hover:from-blue-500 hover:to-blue-300 transition-colors relative"
+              />
+              
+              {/* Cumulative percentage overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ delay: 1 + i * 0.08 }}
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-zinc-200"
+              >
+                {Math.round(item.cumulative)}%
+              </motion.div>
+            </div>
           </div>
-        </div>
-        <p className="text-sm text-zinc-500">
-          {stat.description}
-        </p>
-      </div>
-
-      {/* Chart */}
-     {/*  {chartType === 'bar' && <BarGraph value={stat.value} isInView={isInView} />}
-      {chartType === 'stock' && <StockChart value={stat.value} isInView={isInView} />} */}
-    </motion.div>
+        );
+      })}
+    </div>
   );
 }
 
-function SmallStatCard({ 
-  stat, 
-  index, 
-  chartType 
-}: { 
-  stat: ChapterStat; 
-  index: number; 
-  chartType: 'pie' | 'progress' 
-}) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const count = useCountUp(stat.value, isInView, 1500);
-  const maxValue = Math.ceil(stat.value * 1.5 / 10) * 10;
+// Grade × Gender - Stacked Horizontal Bar
+function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
+  const gradeGenderData = data.gradeGenderBreakdown;
+  const maxValue = Math.max(...gradeGenderData.map(d => d.count));
 
   return (
+    <div className="space-y-3">
+      {gradeGenderData.map((item, i) => {
+        const malePercent = ((item.male || 0) / maxValue) * 100;
+        const femalePercent = ((item.female || 0) / maxValue) * 100;
+        const unknownPercent = ((item.unknown || 0) / maxValue) * 100;
+        
+        return (
+          <div key={i} className="relative">
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-[11px] text-zinc-400 leading-tight">{item.grade}</span>
+              <span className="text-[11px] text-zinc-500 font-medium">{item.count}</span>
+            </div>
+            <div className="h-7 bg-zinc-800 rounded overflow-hidden flex">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: isInView ? `${malePercent}%` : 0 }}
+                transition={{ duration: 1, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-zinc-600 hover:bg-zinc-500 cursor-pointer transition-colors relative group"
+                title={`Male: ${item.male}`}
+              >
+                <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                  {item.male}
+                </span>
+              </motion.div>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: isInView ? `${femalePercent}%` : 0 }}
+                transition={{ duration: 1, delay: i * 0.08 + 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-orange-400 hover:bg-orange-300 cursor-pointer transition-colors relative group"
+                title={`Female: ${item.female}`}
+              >
+                <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                  {item.female}
+                </span>
+              </motion.div>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: isInView ? `${unknownPercent}%` : 0 }}
+                transition={{ duration: 1, delay: i * 0.08 + 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-slate-400 hover:bg-slate-300 cursor-pointer transition-colors relative group"
+                title={`Unknown: ${item.unknown}`}
+              >
+                <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                  {item.unknown}
+                </span>
+              </motion.div>
+            </div>
+          </div>
+        );
+      })}
+      
+      {/* Legend */}
+      <div className="flex gap-4 justify-center mt-4 text-xs">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 bg-zinc-600 rounded" />
+          <span className="text-zinc-400">Male</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 bg-orange-400 rounded" />
+          <span className="text-zinc-400">Female</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 bg-slate-400 rounded" />
+          <span className="text-zinc-400">Unknown</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Chart Card Component
+function ChartCard({ 
+  title, 
+  index, 
+  children 
+}: { 
+  title: string; 
+  index: number; 
+  children: React.ReactNode;
+}) {
+  return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
@@ -423,36 +332,33 @@ function SmallStatCard({
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="relative bg-zinc-900 rounded-xl border border-zinc-800 p-6 transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] overflow-hidden group"
+      className="relative bg-zinc-900 rounded-xl border border-zinc-800 p-4 transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]"
     >
-      {/* Header */}
-      <div className="mb-4">
-        <div className="text-3xl font-bold text-zinc-100 mb-1">
-          {count}
-          {stat.unit && <span className="text-zinc-400 text-xl ml-1">{stat.unit}</span>}
-        </div>
-        <h3 className="text-base font-semibold text-zinc-300 mb-2">
-          {stat.label}
-        </h3>
-        <p className="text-sm text-zinc-500">
-          {stat.description}
-        </p>
-      </div>
-
-      {/* Chart */}
-      {/* {chartType === 'pie' && <PieChart value={stat.value} isInView={isInView} />}
-      {chartType === 'progress' && <ProgressChart value={stat.value} max={maxValue} isInView={isInView} />} */}
+      <h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3>
+      {children}
     </motion.div>
   );
 }
 
 interface ChapterStatsProps {
-  stats: ChapterStat[];
+  ieeeAnalytics?: {
+    delhiSection: IEEEAnalytics;
+    studentBranch: IEEEAnalytics;
+  };
 }
 
-export default function ChapterStats({ stats }: ChapterStatsProps) {
+export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  if (!ieeeAnalytics) {
+    return null;
+  }
+
+  const { delhiSection, studentBranch } = ieeeAnalytics;
+
   return (
-    <section className="relative py-16 sm:py-24 bg-zinc-950">
+    <section ref={ref} className="relative py-16 sm:py-24 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <motion.div
@@ -466,39 +372,70 @@ export default function ChapterStats({ stats }: ChapterStatsProps) {
             Chapter Insights
           </h2>
           <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-            Quantifying our impact and engagement through data
+            IEEE Delhi Section & Student Branch Analytics
           </p>
         </motion.div>
 
-        {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* First stat - Bar chart (spans 2 columns on large screens) */}
-          {stats[0] && (
-            <div className="lg:col-span-2">
-              <LargeStatCard stat={stats[0]} index={0} chartType="bar" />
-            </div>
-          )}
+        {/* Delhi Section Data */}
+        <div className="mb-16">
+          <motion.h3
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="text-2xl font-bold text-zinc-200 mb-6 flex items-center gap-2"
+          >
+            <div className="w-1 h-6 bg-blue-500 rounded" />
+            {delhiSection.sectionName}
+          </motion.h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ChartCard title="Count by Region and Grade" index={0}>
+              <DatasetChart data={delhiSection} isInView={isInView} />
+            </ChartCard>
 
-          {/* Second stat - Pie chart */}
-          {stats[1] && (
-            <div>
-              <SmallStatCard stat={stats[1]} index={1} chartType="pie" />
-            </div>
-          )}
+            <ChartCard title="Count by Gender" index={1}>
+              <GenderChart data={delhiSection} isInView={isInView} />
+            </ChartCard>
 
-          {/* Third stat - Progress chart */}
-          {stats[2] && (
-            <div>
-              <SmallStatCard stat={stats[2]} index={2} chartType="progress" />
-            </div>
-          )}
+            <ChartCard title="Count by Technology Focus Area" index={2}>
+              <TechnologyFocusChart data={delhiSection} isInView={isInView} />
+            </ChartCard>
 
-          {/* Fourth stat - Stock chart (spans 2 columns on large screens) */}
-          {stats[3] && (
-            <div className="lg:col-span-2">
-              <LargeStatCard stat={stats[3]} index={3} chartType="stock" />
-            </div>
-          )}
+            <ChartCard title="Count by Grade and Gender" index={3}>
+              <GradeGenderChart data={delhiSection} isInView={isInView} />
+            </ChartCard>
+          </div>
+        </div>
+
+        {/* IEEE Student Branch Data */}
+        <div>
+          <motion.h3
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="text-2xl font-bold text-zinc-200 mb-6 flex items-center gap-2"
+          >
+            <div className="w-1 h-6 bg-green-500 rounded" />
+            {studentBranch.sectionName}
+          </motion.h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ChartCard title="Count by Region and Grade" index={4}>
+              <DatasetChart data={studentBranch} isInView={isInView} />
+            </ChartCard>
+
+            <ChartCard title="Count by Gender" index={5}>
+              <GenderChart data={studentBranch} isInView={isInView} />
+            </ChartCard>
+
+            <ChartCard title="Count by Technology Focus Area" index={6}>
+              <TechnologyFocusChart data={studentBranch} isInView={isInView} />
+            </ChartCard>
+
+            <ChartCard title="Count by Grade and Gender" index={7}>
+              <GradeGenderChart data={studentBranch} isInView={isInView} />
+            </ChartCard>
+          </div>
         </div>
       </div>
     </section>

@@ -52,9 +52,7 @@ export default async function ChapterPage({
 
   return (
     <main className="min-h-screen bg-zinc-950 pt-18">
-
       <Navbar/>
-      
       {/* Section 1 & 2: Hero with Name, Logo, and Description */}
       <ChapterHero
         name={chapter.name}
@@ -63,14 +61,13 @@ export default async function ChapterPage({
       />
 
       {/* Section 3: Stats and Insights */}
-      <ChapterStats stats={chapter.stats} />
+      <ChapterStats ieeeAnalytics={chapter.ieeeAnalytics} />
 
       {/* Section 4: Chapter Team */}
       <ChapterTeam team={chapter.team} chapterName={chapter.name} />
 
       {/* Section 5: Past Events (Temporary Design) */}
       <ChapterPastEvents events={chapter.pastEvents} />
-
       <Footer/>
     </main>
   );
