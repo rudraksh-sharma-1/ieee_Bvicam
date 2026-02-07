@@ -68,35 +68,47 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-blue-600 via-blue-800 to-blue-950"
     >
-      {/* Subtle Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)] opacity-20" />
+      {/* Animated Grid Pattern */}
+      <motion.div 
+        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:4rem_4rem]"
+        animate={{
+          opacity: [0.7, 0.2, 0.7],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
-      {/* Floating Gradient Orb */}
+      {/* Floating particles effect */}
       <motion.div
-        className="absolute top-1/4 -left-32 w-96 h-96 bg-slate-700/10 rounded-full blur-3xl"
+        className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/10 rounded-full blur-2xl"
         animate={{
           x: [0, 100, 0],
           y: [0, -50, 0],
-          scale: [1, 1.1, 1],
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.6, 0.2],
         }}
         transition={{
-          duration: 20,
+          duration: 15,
           repeat: Infinity,
           ease: "linear",
         }}
       />
 
       <motion.div
-        className="absolute bottom-1/4 -right-32 w-96 h-96 bg-zinc-600/10 rounded-full blur-3xl"
+        className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-white/10 rounded-full blur-2xl"
         animate={{
-          x: [0, -100, 0],
-          y: [0, 50, 0],
-          scale: [1, 1.2, 1],
+          x: [0, -80, 0],
+          y: [0, 60, 0],
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.35, 0.15],
         }}
         transition={{
-          duration: 25,
+          duration: 18,
           repeat: Infinity,
           ease: "linear",
         }}
@@ -110,19 +122,19 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50 text-sm text-zinc-300 mb-6">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm text-white mb-6">
+            <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
             Institute of Electrical and Electronics Engineers
           </div>
 
           {/* Heading*/}
           <motion.h1
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-zinc-100 mb-6"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 1.2,
-              delay: 2.8,
+              delay: 0.3,
               ease: [0.22, 1, 0.36, 1]
             }}
           >
@@ -133,7 +145,7 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.5,
-                  delay: 2.8 + i * 0.05,
+                  delay: 0.3 + i * 0.05,
                   ease: [0.22, 1, 0.36, 1]
                 }}
                 className="inline-block"
@@ -145,12 +157,12 @@ export default function Hero() {
 
           {/* Paragraph */}
           <motion.p
-            className="text-xl sm:text-2xl text-zinc-400 max-w-3xl mx-auto mb-10 leading-relaxed"
+            className="text-xl sm:text-2xl text-blue-50/90 max-w-3xl mx-auto mb-10 leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.8,
-              delay: 3,
+              delay: 0.8,
               ease: [0.22, 1, 0.36, 1]
             }}
           >
@@ -158,11 +170,16 @@ export default function Hero() {
           </motion.p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.6 }}
+          >
             <Button
               size="lg"
               onClick={handleExploreEvents}
-              className="bg-zinc-100 text-zinc-950 hover:bg-zinc-200 px-8 py-6 text-lg font-semibold cursor-pointer"
+              className="bg-white text-blue-900 hover:bg-blue-50 px-8 py-6 text-lg font-semibold cursor-pointer shadow-lg hover:shadow-xl transition-all"
             >
               Explore Events
             </Button>
@@ -170,41 +187,41 @@ export default function Hero() {
               size="lg"
               variant="outline"
               onClick={handleLearnMore}
-              className="border-slate-700 text-zinc-300 hover:bg-zinc-800/50 hover:text-zinc-100 px-8 py-6 text-lg cursor-pointer"
+              className="border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:border-white/50 px-8 py-6 text-lg cursor-pointer transition-all"
             >
               Learn More
             </Button>
-          </div>
+          </motion.div>
 
-          {/* Stat */}
+          {/* Stats */}
           <motion.div
             className="grid grid-cols-3 gap-8 mt-20 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 1 }}
+            transition={{ delay: 1.2, duration: 1 }}
             onAnimationComplete={() => setStartCount(true)}
           >
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-zinc-100 mb-1">
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-1">
                 {membersCount}+
               </div>
-              <div className="text-sm text-zinc-500 uppercase tracking-wider pr-3">
+              <div className="text-sm text-blue-100/80 uppercase tracking-wider">
                 Members
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-zinc-100 mb-1">
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-1">
                 {eventsCount}+
               </div>
-              <div className="text-sm text-zinc-500 uppercase tracking-wider pr-3">
+              <div className="text-sm text-blue-100/80 uppercase tracking-wider">
                 Events
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-slate-100 mb-1">
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-1">
                 {yearsCount}+
               </div>
-              <div className="text-sm text-zinc-500 uppercase tracking-wider pr-3">
+              <div className="text-sm text-blue-100/80 uppercase tracking-wider">
                 Years
               </div>
             </div>
@@ -219,9 +236,9 @@ export default function Hero() {
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="w-6 h-10 border-2 border-slate-700 rounded-full p-1">
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full p-1">
           <motion.div
-            className="w-1.5 h-2 bg-slate-500 rounded-full mx-auto"
+            className="w-1.5 h-2 bg-white/70 rounded-full mx-auto"
             animate={{ y: [0, 16, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />

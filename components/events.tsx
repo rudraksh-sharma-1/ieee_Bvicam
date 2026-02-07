@@ -13,7 +13,7 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
   if (images.length === 0) return null;
   if (images.length === 1) {
     return (
-      <div className="relative w-full h-full bg-zinc-900 overflow-hidden">
+      <div className="relative w-full h-full bg-blue-900/30 overflow-hidden">
         <Image
           src={images[0]}
           alt={title}
@@ -22,8 +22,8 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {/* Placeholder overlay for development */}
-        {/* <div className="absolute inset-0 bg-zinc-900/50 backdrop-blur-sm flex items-center justify-center">
-          <span className="text-zinc-500 text-sm">Event Image</span>
+        {/* <div className="absolute inset-0 bg-blue-900/50 backdrop-blur-sm flex items-center justify-center">
+          <span className="text-blue-300 text-sm">Event Image</span>
         </div> */}
       </div>
     );
@@ -33,7 +33,7 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
   const handleNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
 
   return (
-    <div className="relative w-full h-full bg-zinc-900 overflow-hidden group">
+    <div className="relative w-full h-full bg-blue-900/30 overflow-hidden group">
       {/* Current Image */}
       <div className="relative w-full h-full">
         <Image
@@ -45,8 +45,8 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {/* Placeholder overlay */}
-        {/* <div className="absolute inset-0 bg-zinc-900/50 backdrop-blur-sm flex items-center justify-center">
-          <span className="text-zinc-500 text-sm">Event Image {currentIndex + 1}/{images.length}</span>
+        {/* <div className="absolute inset-0 bg-blue-900/50 backdrop-blur-sm flex items-center justify-center">
+          <span className="text-blue-300 text-sm">Event Image {currentIndex + 1}/{images.length}</span>
         </div> */}
       </div>
 
@@ -55,19 +55,19 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-zinc-950/80 hover:bg-zinc-900 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-950/90 hover:bg-blue-900/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
             aria-label="Previous image"
           >
-            <svg className="w-4 h-4 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-zinc-950/80 hover:bg-zinc-900 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-950/90 hover:bg-blue-900/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
             aria-label="Next image"
           >
-            <svg className="w-4 h-4 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -79,7 +79,7 @@ function EventImageCarousel({ images, title, heightClass }: { images: string[]; 
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 className={`w-1.5 h-1.5 rounded-full transition-all ${
-                  idx === currentIndex ? "bg-zinc-100 w-4" : "bg-zinc-500"
+                  idx === currentIndex ? "bg-blue-100 w-4" : "bg-blue-400/60"
                 }`}
                 aria-label={`Go to image ${idx + 1}`}
               />
@@ -118,10 +118,10 @@ function EventCard({ event, index }: { event: Event; index: number }) {
         delay: index * 0.08, 
         ease: [0.22, 1, 0.36, 1]
       }}
-      className={`group relative bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(113,113,122,0.15)] ${sizeClasses[event.size]}`}
+      className={`group relative bg-blue-900/20 backdrop-blur-sm rounded-lg border border-blue-800/30 overflow-hidden transition-all duration-300 hover:border-blue-700/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:bg-blue-900/30 ${sizeClasses[event.size]}`}
     >
       {/* Event Images with dynamic height */}
-      <div className={`relative w-full bg-zinc-900 overflow-hidden ${imageHeightClasses[event.size]}`}>
+      <div className={`relative w-full bg-blue-900/30 overflow-hidden ${imageHeightClasses[event.size]}`}>
         <EventImageCarousel images={event.images} title={event.title} heightClass={imageHeightClasses[event.size]} />
       </div>
 
@@ -129,20 +129,20 @@ function EventCard({ event, index }: { event: Event; index: number }) {
       <div className="p-5">
         {/* Category Badge */}
         <div className="inline-block mb-3">
-          <span className="text-xs uppercase tracking-wider text-zinc-500 bg-zinc-800/50 px-2 py-1 rounded">
+          <span className="text-xs uppercase tracking-wider text-blue-300/80 bg-blue-800/30 px-2 py-1 rounded">
             {event.category}
           </span>
         </div>
 
         {/* Title - Larger for hero/large cards */}
-        <h3 className={`font-semibold text-zinc-100 mb-2 group-hover:text-zinc-50 transition-colors ${
+        <h3 className={`font-semibold text-white mb-2 group-hover:text-blue-50 transition-colors ${
           event.size === "hero" ? "text-xl md:text-2xl" : "text-lg"
         }`}>
           {event.title}
         </h3>
 
         {/* Description - Show more lines for larger cards */}
-        <p className={`text-sm text-zinc-400 leading-relaxed ${
+        <p className={`text-sm text-blue-100/70 leading-relaxed ${
           event.size === "hero" || event.size === "large" ? "line-clamp-4" : "line-clamp-3"
         }`}>
           {event.description}
@@ -150,14 +150,14 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 
         {/* year tag */}
         {event.year && (
-          <div className="mt-4 text-xs text-zinc-600">
+          <div className="mt-4 text-xs text-blue-400/60">
             {event.year}
           </div>
         )}
       </div>
 
       {/* Subtle gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
     </motion.div>
   );
 }
@@ -166,9 +166,37 @@ export default function Events() {
   return (
     <section 
       id="events" 
-      className="relative min-h-screen bg-zinc-950 py-20 sm:py-32"
+      className="relative min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-blue-950 py-20 sm:py-32 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Subtle animated orbs in background for continuity */}
+      <motion.div
+        className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-900/15 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-blue-800/15 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.1, 0.2, 0.1],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading with Lamp-style animation */}
         <motion.div
           className="text-center mb-20"
@@ -178,15 +206,15 @@ export default function Events() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Main Heading with subtle glow effect */}
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-zinc-100 mb-6 relative inline-block">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 relative inline-block">
             Events
             {/* Subtle underline glow */}
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-zinc-700 rounded-full" />
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full" />
           </h2>
 
           {/* Introductory paragraph */}
           <motion.p
-            className="text-lg sm:text-xl text-zinc-400 max-w-3xl mx-auto mt-8 leading-relaxed"
+            className="text-lg sm:text-xl text-blue-100/80 max-w-3xl mx-auto mt-8 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -212,7 +240,7 @@ export default function Events() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <button className="px-8 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 rounded-md transition-colors border border-zinc-700 hover:border-zinc-600">
+          <button className="px-8 py-3 bg-blue-800/30 hover:bg-blue-800/50 text-blue-100 rounded-md transition-colors border border-blue-700/50 hover:border-blue-600/70 backdrop-blur-sm">
             View Past Events Archive
           </button>
         </motion.div> */}

@@ -3,118 +3,85 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import type { IEEEAnalytics } from "@/lib/chapter-details";
+import { AreaChart, Area, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 // Dataset Chart - Vertical Bar Chart (Region × Grade)
 function DatasetChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
-  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
-  
   const gradeData = data.gradeDistribution;
-  const maxValue = Math.max(...gradeData.map(d => d.count));
   
-  // Calculate nice Y-axis ticks with padding, starting from 0
-  const getYAxisTicks = () => {
-    const tickCount = 4; // Reduced to 4 intervals so we have 5 points including 0
-    // Add 20% padding to maxValue so smaller bars are more visible
-    const paddedMax = Math.ceil(maxValue * 1.1);
-    const step = Math.ceil(paddedMax / tickCount);
-    const ticks = [0]; 
-    for (let i = 1; i <= tickCount; i++) {
-      ticks.push(step * i);
+  // Transform data for Recharts format
+  const chartData = gradeData.map(item => ({
+    name: item.grade.length > 12 ? item.grade.split(' ')[0] : item.grade,
+    fullName: item.grade,
+    count: item.count
+  }));
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded shadow-lg">
+          {payload[0].payload.fullName}: {payload[0].value}
+        </div>
+      );
     }
-    return ticks;
+    return null;
   };
-  
-  const yAxisTicks = getYAxisTicks();
-  const displayMaxValue = yAxisTicks[yAxisTicks.length - 1];
 
   return (
-    <div className="h-80 flex">
-      {/* Y-axis */}
-      <div className="flex flex-col justify-end pr-3 text-sm text-zinc-600 font-medium">
-        {[...yAxisTicks].reverse().map((tick, i) => (
-          <div 
-            key={i} 
-            className="flex items-center"
-            style={{ 
-              height: i === yAxisTicks.length - 1 ? 'auto' : `${100 / (yAxisTicks.length - 1)}%`,
-              paddingBottom: i === yAxisTicks.length - 1 ? '0.5rem' : '0'
-            }}
-          >
-            {tick}
-          </div>
-        ))}
-      </div>
-
-      {/* Chart area */}
-      <div className="flex-1 flex flex-col">
-        <div className="flex-1 relative border-b border-l border-zinc-300">
-          {/* Horizontal grid lines */}
-          <div className="absolute inset-0 flex flex-col justify-start">
-            {[...yAxisTicks].reverse().map((_, i) => (
-              <div 
-                key={i} 
-                className="border-t border-zinc-200"
-                style={{ 
-                  height: i === yAxisTicks.length - 1 ? '0' : `${100 / (yAxisTicks.length - 1)}%`
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Bars */}
-          <div className="absolute inset-0 flex items-end justify-between gap-1.5 pb-0 pl-1">
-            {gradeData.map((item, i) => {
-              // Calculate height based on padded max value so smaller bars are visible
-              const height = displayMaxValue > 0 ? (item.count / displayMaxValue) * 100 : 0;
-              
-              return (
-                <div key={i} className="relative flex-1 flex flex-col items-center h-full justify-end">
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ 
-                      height: isInView ? `${height}%` : 0, 
-                      opacity: isInView ? 1 : 0 
-                    }}
-                    transition={{ 
-                      duration: 1, 
-                      delay: i * 0.08,
-                      ease: [0.22, 1, 0.36, 1] 
-                    }}
-                    onMouseEnter={() => setHoveredBar(i)}
-                    onMouseLeave={() => setHoveredBar(null)}
-                    className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t cursor-pointer hover:from-blue-500 hover:to-blue-300 transition-colors relative"
-                  >
-                    {hoveredBar === i && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded whitespace-nowrap z-20 shadow-lg"
-                      >
-                        {item.grade}: {item.count}
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-800" />
-                      </motion.div>
-                    )}
-                  </motion.div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* X-axis labels */}
-        <div className="flex justify-between gap-1.5 mt-2">
-          {gradeData.map((item, i) => (
-            <div key={i} className="flex-1 text-center text-sm text-zinc-600 font-medium px-0.5">
-              <div className="break-words leading-tight">
-                {item.grade.length > 12 ? item.grade.split(' ')[0] : item.grade}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <motion.div 
+      className="h-80 w-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isInView ? 1 : 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={chartData}
+          margin={{
+            top: 20,
+            right: 10,
+            left: 0,
+            bottom: 20,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fill: '#52525b', fontSize: 14, fontWeight: 500 }}
+            axisLine={{ stroke: '#d4d4d8' }}
+            tickLine={false}
+          />
+          <YAxis 
+            tick={{ fill: '#52525b', fontSize: 14, fontWeight: 500 }}
+            axisLine={{ stroke: '#d4d4d8' }}
+            tickLine={false}
+            width={40}
+          />
+          <Tooltip 
+            content={<CustomTooltip />}
+            cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+          />
+          <Bar 
+            dataKey="count" 
+            fill="url(#blueGradient)"
+            radius={[4, 4, 0, 0]}
+            animationDuration={1000}
+            animationBegin={0}
+            isAnimationActive={isInView}
+          />
+          <defs>
+            <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#60a5fa" />
+              <stop offset="100%" stopColor="#2563eb" />
+            </linearGradient>
+          </defs>
+        </BarChart>
+      </ResponsiveContainer>
+    </motion.div>
   );
 }
+
 // Gender Chart - Donut/Pie Chart
 function GenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
   const [hoveredSegment, setHoveredSegment] = useState<number | null>(null);
@@ -174,127 +141,240 @@ function GenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolea
   );
 }
 
-// Technology Focus Area - Pareto with cumulative percentage line
+// Technology Focus Area
 function TechnologyFocusChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
-  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
-  
   const techData = data.technologyFocus;
-  const totalCount = techData.reduce((sum, item) => sum + item.count, 0);
-  const maxValue = Math.max(...techData.map(d => d.count));
   
-  // Calculate cumulative percentages
-  let cumulativePercentage = 0;
-  const dataWithCumulative = techData.map(item => {
-    const percentage = (item.count / totalCount) * 100;
-    cumulativePercentage += percentage;
-    return {
-      ...item,
-      percentage,
-      cumulative: cumulativePercentage
-    };
+  const chartData = techData.map(item => ({
+    area: item.area,
+    count: item.count
+  }));
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-zinc-800 text-white text-sm px-3 py-2 rounded shadow-lg">
+          <p className="font-semibold mb-1">{payload[0].payload.area}</p>
+          <p>Count: {payload[0].value}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const CustomYAxisTick = ({ x, y, payload }: any) => {
+    const maxLength = 35;
+    const text = payload.value;
+    const words = text.split(' ');
+  const lines: string[] = [];
+  let currentLine = '';
+  
+  words.forEach((word: string) => {
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    if (testLine.length > maxLength && currentLine) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = testLine;
+    }
   });
+  
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+  
+  // Limit to 2 lines
+  const displayLines = lines.slice(0, 2);
+  if (lines.length > 2) {
+    displayLines[1] = displayLines[1] + '...';
+  }
+  
+  return (
+    <g transform={`translate(${x},${y})`}>
+      {displayLines.map((line, index) => (
+        <text 
+          key={index}
+          x={-10} 
+          y={0} 
+          dy={index * 12 - (displayLines.length - 1) * 6 + 4}
+          textAnchor="end" 
+          fill="#a1a1aa" 
+          fontSize={"12"}
+        >
+          {line}
+        </text>
+      ))}
+    </g>
+  );
+  };
 
   return (
-    <div className="space-y-2.5 relative">
-      {dataWithCumulative.map((item, i) => {
-        const barWidth = (item.count / maxValue) * 100;
-        
-        return (
-          <div key={i} className="relative">
-            <div className="flex items-center justify-between mb-0.5">
-              <span className="text-[11px] text-zinc-400 truncate flex-1 pr-2 leading-tight">{item.area}</span>
-              <span className="text-[11px] text-zinc-500 font-medium">{item.count}</span>
-            </div>
-            <div className="relative h-5 bg-zinc-800 rounded overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: isInView ? `${barWidth}%` : 0 }}
-                transition={{ 
-                  duration: 1, 
-                  delay: i * 0.08,
-                  ease: [0.22, 1, 0.36, 1] 
-                }}
-                onMouseEnter={() => setHoveredBar(i)}
-                onMouseLeave={() => setHoveredBar(null)}
-                className="h-full bg-gradient-to-r from-blue-600 to-blue-400 cursor-pointer hover:from-blue-500 hover:to-blue-300 transition-colors relative"
+    <motion.div 
+      className="h-full w-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isInView ? 1 : 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={chartData}
+          layout="vertical"
+          margin={{
+            top: 10,
+            right: 30,
+            left: 200,
+            bottom: 10,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" horizontal={true} vertical={false} />
+          <XAxis 
+            type="number" 
+            tick={{ fill: '#a1a1aa', fontSize: 11 }}
+            axisLine={{ stroke: '#52525b' }}
+            tickLine={{ stroke: '#52525b' }}
+          />
+          <YAxis 
+            type="category" 
+            dataKey="area"
+            tick={<CustomYAxisTick />}
+            axisLine={{ stroke: '#52525b' }}
+            tickLine={{ stroke: '#52525b' }}
+            width={1}
+          />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }} />
+          <defs>
+            <linearGradient id="blueGradientHorizontal" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#2563eb" />
+              <stop offset="100%" stopColor="#60a5fa" />
+            </linearGradient>
+          </defs>
+          <Bar 
+            dataKey="count" 
+            fill="url(#blueGradientHorizontal)"
+            radius={[0, 4, 4, 0]}
+            animationDuration={1000}
+            isAnimationActive={isInView}
+          >
+            {chartData.map((entry, index) => (
+              <Cell 
+                key={`cell-${index}`} 
+                className="hover:opacity-80 transition-opacity cursor-pointer"
               />
-              
-              {/* Cumulative percentage overlay */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isInView ? 1 : 0 }}
-                transition={{ delay: 1 + i * 0.08 }}
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-zinc-200"
-              >
-                {Math.round(item.cumulative)}%
-              </motion.div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </motion.div>
   );
 }
 
-// Grade × Gender - Stacked Horizontal Bar
+// Grade × Gender
 function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolean }) {
   const gradeGenderData = data.gradeGenderBreakdown;
-  const maxValue = Math.max(...gradeGenderData.map(d => d.count));
+  
+  // Transform data for Recharts format
+  const chartData = gradeGenderData.map(item => ({
+    grade: item.grade.length > 12 ? item.grade.split(' ')[0] : item.grade,
+    fullGrade: item.grade,
+    male: item.male || 0,
+    female: item.female || 0,
+    unknown: item.unknown || 0,
+    total: item.count
+  }));
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0);
+      return (
+        <div className="bg-zinc-800 text-white text-lg px-3 py-2 rounded shadow-lg">
+          <p className="font-semibold mb-1">{payload[0]?.payload.fullGrade}</p>
+          {payload.reverse().map((entry: any, index: number) => (
+            <p key={index} style={{ color: entry.color }}>
+              {entry.name}: {entry.value}
+            </p>
+          ))}
+          <p className="font-semibold mt-1 pt-1 border-t border-zinc-600">
+            Total: {total}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <div className="space-y-3">
-      {gradeGenderData.map((item, i) => {
-        const malePercent = ((item.male || 0) / maxValue) * 100;
-        const femalePercent = ((item.female || 0) / maxValue) * 100;
-        const unknownPercent = ((item.unknown || 0) / maxValue) * 100;
-        
-        return (
-          <div key={i} className="relative">
-            <div className="flex items-center justify-between mb-0.5">
-              <span className="text-[11px] text-zinc-400 leading-tight">{item.grade}</span>
-              <span className="text-[11px] text-zinc-500 font-medium">{item.count}</span>
-            </div>
-            <div className="h-7 bg-zinc-800 rounded overflow-hidden flex">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: isInView ? `${malePercent}%` : 0 }}
-                transition={{ duration: 1, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full bg-zinc-600 hover:bg-zinc-500 cursor-pointer transition-colors relative group"
-                title={`Male: ${item.male}`}
-              >
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  {item.male}
-                </span>
-              </motion.div>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: isInView ? `${femalePercent}%` : 0 }}
-                transition={{ duration: 1, delay: i * 0.08 + 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full bg-orange-400 hover:bg-orange-300 cursor-pointer transition-colors relative group"
-                title={`Female: ${item.female}`}
-              >
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  {item.female}
-                </span>
-              </motion.div>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: isInView ? `${unknownPercent}%` : 0 }}
-                transition={{ duration: 1, delay: i * 0.08 + 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full bg-slate-400 hover:bg-slate-300 cursor-pointer transition-colors relative group"
-                title={`Unknown: ${item.unknown}`}
-              >
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  {item.unknown}
-                </span>
-              </motion.div>
-            </div>
-          </div>
-        );
-      })}
+    <motion.div 
+      className="space-y-3"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isInView ? 1 : 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <ResponsiveContainer width="100%" height={400}>
+        <AreaChart
+          data={chartData}
+          margin={{
+            top: 20,
+            right: 20,
+            left: 0,
+            bottom: 20,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" />
+          <XAxis 
+            dataKey="grade" 
+            tick={{ fill: '#a1a1aa', fontSize: 14 }}
+            axisLine={{ stroke: '#52525b' }}
+            tickLine={false}
+          />
+          <YAxis 
+            tick={{ fill: '#a1a1aa', fontSize: 14 }}
+            axisLine={{ stroke: '#52525b' }}
+            tickLine={false}
+            width={40}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend 
+            wrapperStyle={{ paddingTop: '20px' }}
+            iconType="square"
+            formatter={(value) => (
+              <span className="text-zinc-400 text-lg">{value}</span>
+            )}
+          />
+          <Area 
+            type="monotone" 
+            dataKey="male" 
+            stackId="1" 
+            stroke="#7CC476" 
+            fill="#7CC476"
+            animationDuration={1000}
+            isAnimationActive={isInView}
+          />
+          <Area 
+            type="monotone" 
+            dataKey="female" 
+            stackId="1" 
+            stroke="#fb923c" 
+            fill="#fb923c"
+            animationDuration={1000}
+            animationBegin={100}
+            isAnimationActive={isInView}
+          />
+          <Area 
+            type="monotone" 
+            dataKey="unknown" 
+            stackId="1" 
+            stroke="#7696C4" 
+            fill="#7696C4"
+            animationDuration={1000}
+            animationBegin={200}
+            isAnimationActive={isInView}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
       
       {/* Legend */}
-      <div className="flex gap-4 justify-center mt-4 text-xs">
+      {/* <div className="flex gap-4 justify-center mt-4 text-xs">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 bg-zinc-600 rounded" />
           <span className="text-zinc-400">Male</span>
@@ -307,8 +387,8 @@ function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: b
           <div className="w-3 h-3 bg-slate-400 rounded" />
           <span className="text-zinc-400">Unknown</span>
         </div>
-      </div>
-    </div>
+      </div> */}
+    </motion.div>
   );
 }
 
@@ -389,13 +469,13 @@ export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
           </motion.h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ChartCard title="Count by Region and Grade" index={0}>
+            {/* <ChartCard title="Count by Region and Grade" index={0}>
               <DatasetChart data={delhiSection} isInView={isInView} />
             </ChartCard>
 
             <ChartCard title="Count by Gender" index={1}>
               <GenderChart data={delhiSection} isInView={isInView} />
-            </ChartCard>
+            </ChartCard> */}
 
             <ChartCard title="Count by Technology Focus Area" index={2}>
               <TechnologyFocusChart data={delhiSection} isInView={isInView} />
@@ -420,13 +500,13 @@ export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
           </motion.h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ChartCard title="Count by Region and Grade" index={4}>
+            {/* <ChartCard title="Count by Region and Grade" index={4}>
               <DatasetChart data={studentBranch} isInView={isInView} />
-            </ChartCard>
+            </ChartCard> */}
 
-            <ChartCard title="Count by Gender" index={5}>
+           {/*  <ChartCard title="Count by Gender" index={5}>
               <GenderChart data={studentBranch} isInView={isInView} />
-            </ChartCard>
+            </ChartCard> */}
 
             <ChartCard title="Count by Technology Focus Area" index={6}>
               <TechnologyFocusChart data={studentBranch} isInView={isInView} />

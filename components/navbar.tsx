@@ -67,7 +67,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
+    <nav className="absolute top-0 left-0 right-0 z-40 bg-blue-950/90 backdrop-blur-md border-b border-blue-800/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18">
           {/* Logo - Enhanced Visibility */}
@@ -82,7 +82,7 @@ export default function Navbar() {
                 alt="IEEE BVICAM Logo"
                 fill
                 sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, 192px"
-                className="object-contain transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(148,163,184,0.5)]"
+                className="object-contain transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]"
                 priority
               />
             </div>
@@ -93,7 +93,7 @@ export default function Navbar() {
             {/* Home button */}
             <button
               onClick={handleHomeClick}
-              className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50"
+              className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10"
             >
               Home
             </button>
@@ -102,7 +102,7 @@ export default function Navbar() {
               <button
                 key={link.id}
                 onClick={() => handleNavigation(link)}
-                className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50"
+                className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10"
               >
                 {link.label}
               </button>
@@ -111,19 +111,19 @@ export default function Navbar() {
             {/* Chapters Dropdown */}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <button className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50 flex items-center gap-1">
+                <button className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10 flex items-center gap-1">
                   Chapters
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-zinc-900 border-zinc-800">
+              <DropdownMenuContent className="bg-blue-950/98 backdrop-blur-md border-blue-800/60">
                 {chaptersDropdownItems.map((item) => (
                   <DropdownMenuItem key={item.label} asChild>
                     <Link
                       href={item.href}
-                      className="text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800 cursor-pointer"
+                      className="text-blue-100 hover:text-white hover:bg-white/10 cursor-pointer"
                     >
                       {item.label}
                     </Link>
@@ -135,19 +135,19 @@ export default function Navbar() {
             {/* Events Dropdown */}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <button className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-800/50 flex items-center gap-1">
+                <button className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10 flex items-center gap-1">
                   Events
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-zinc-900 border-zinc-800">
+              <DropdownMenuContent className="bg-blue-950/98 backdrop-blur-md border-blue-800/60">
                 {eventsDropdownItems.map((item) => (
                   <DropdownMenuItem key={item.label} asChild>
                     <Link
                       href={item.href}
-                      className="text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800 cursor-pointer"
+                      className="text-blue-100 hover:text-white hover:bg-white/10 cursor-pointer"
                     >
                       {item.label}
                     </Link>
@@ -159,7 +159,7 @@ export default function Navbar() {
             <Button
               variant="default"
               size="sm"
-              className="ml-4 bg-zinc-100 text-zinc-950 hover:bg-zinc-200"
+              className="ml-4 bg-white text-blue-900 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all"
             >
               Join Us
             </Button>
@@ -168,7 +168,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50 transition-colors"
+            className="md:hidden p-2 rounded-md text-blue-100 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,12 +183,12 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-zinc-800/50">
+          <div className="md:hidden py-4 border-t border-blue-800/40">
             <div className="flex flex-col gap-2">
               {/* Home button mobile */}
               <button
                 onClick={handleHomeClick}
-                className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors text-left"
+                className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white hover:bg-white/10 rounded-md transition-colors text-left"
               >
                 Home
               </button>
@@ -197,21 +197,21 @@ export default function Navbar() {
                 <button
                   key={link.id}
                   onClick={() => handleNavigation(link)}
-                  className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors text-left"
+                  className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white hover:bg-white/10 rounded-md transition-colors text-left"
                 >
                   {link.label}
                 </button>
               ))}
 
               {/* Chapters submenu in mobile */}
-              <div className="border-t border-zinc-800/50 mt-2 pt-2">
-                <div className="px-4 py-1 text-xs uppercase tracking-wider text-zinc-500">Chapters</div>
+              <div className="border-t border-blue-800/40 mt-2 pt-2">
+                <div className="px-4 py-1 text-xs uppercase tracking-wider text-blue-300/70">Chapters</div>
                 {chaptersDropdownItems.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors block"
+                    className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white hover:bg-white/10 rounded-md transition-colors block"
                   >
                     {item.label}
                   </Link>
@@ -219,14 +219,14 @@ export default function Navbar() {
               </div>
 
               {/* Events submenu in mobile */}
-              <div className="border-t border-zinc-800/50 mt-2 pt-2">
-                <div className="px-4 py-1 text-xs uppercase tracking-wider text-zinc-500">Events</div>
+              <div className="border-t border-blue-800/40 mt-2 pt-2">
+                <div className="px-4 py-1 text-xs uppercase tracking-wider text-blue-300/70">Events</div>
                 {eventsDropdownItems.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="px-4 py-2 text-sm font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50 rounded-md transition-colors block"
+                    className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white hover:bg-white/10 rounded-md transition-colors block"
                   >
                     {item.label}
                   </Link>
@@ -236,7 +236,7 @@ export default function Navbar() {
               <Button
                 variant="default"
                 size="sm"
-                className="mt-2 bg-zinc-100 text-zinc-950 hover:bg-zinc-200"
+                className="mt-2 bg-white text-blue-900 hover:bg-blue-50"
               >
                 Join Us
               </Button>

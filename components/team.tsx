@@ -19,9 +19,9 @@ function CoreLeaderCard({ member, index }: { member: CoreMember; index: number }
       }}
       className="group"
     >
-      <div className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(113,113,122,0.15)]">
+      <div className="bg-blue-950/60 backdrop-blur-md rounded-lg border-2 border-blue-600/50 overflow-hidden transition-all duration-300 hover:border-blue-500/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:bg-blue-950/70">
         {/* Image */}
-        <div className="relative aspect-square bg-zinc-800">
+        <div className="relative aspect-square bg-blue-900/40">
           <Image
             src={member.image}
             alt={member.name}
@@ -30,17 +30,17 @@ function CoreLeaderCard({ member, index }: { member: CoreMember; index: number }
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
           />
           {/* Placeholder overlay */}
-          {/* <div className="absolute inset-0 bg-zinc-900/50 backdrop-blur-sm flex items-center justify-center">
-            <span className="text-zinc-500 text-sm">Team Photo</span>
+          {/* <div className="absolute inset-0 bg-blue-900/50 backdrop-blur-sm flex items-center justify-center">
+            <span className="text-blue-300 text-sm">Team Photo</span>
           </div> */}
         </div>
 
         {/* Content */}
         <div className="p-5">
-          <h3 className="text-lg font-semibold text-zinc-100 mb-1">
+          <h3 className="text-lg font-semibold text-white mb-1">
             {member.name}
           </h3>
-          <p className="text-sm text-zinc-400 uppercase tracking-wider">
+          <p className="text-sm text-blue-200/70 uppercase tracking-wider">
             {formatRole(member.role)}
           </p>
 
@@ -52,7 +52,7 @@ function CoreLeaderCard({ member, index }: { member: CoreMember; index: number }
                   href={member.linkedIn}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-zinc-500 hover:text-zinc-300 transition-colors"
+                  className="text-blue-300/70 hover:text-blue-100 transition-colors"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -80,14 +80,14 @@ function SocietyCard({ society, index }: { society: Society; index: number }) {
         delay: index * 0.15,
         ease: [0.22, 1, 0.36, 1]
       }}
-      className="bg-zinc-900 rounded-lg border border-zinc-800 p-6"
+      className="bg-blue-950/60 backdrop-blur-md rounded-lg border-2 border-blue-600/50 p-6 hover:bg-blue-950/70 hover:border-blue-500/70 transition-all"
     >
       {/* Chapter header */}
       <div className="mb-6">
-        <h3 className="text-xl font-semibold text-zinc-100 mb-1">
+        <h3 className="text-xl font-semibold text-white mb-1">
           {society.name}
         </h3>
-        <p className="text-sm text-zinc-500 uppercase tracking-wider">
+        <p className="text-sm text-blue-300/70 uppercase tracking-wider">
           {society.abbreviation}
         </p>
       </div>
@@ -119,7 +119,7 @@ function SocietyCard({ society, index }: { society: Society; index: number }) {
             >
               <MemberWrapper {...wrapperProps}>
                 {/* Member avatar */}
-                <div className={`relative aspect-square bg-zinc-800 rounded-lg overflow-hidden mb-3 border border-zinc-700 transition-all duration-300 ${member.linkedIn ? 'hover:border-zinc-600 cursor-pointer' : ''}`}>
+                <div className={`relative aspect-square bg-blue-900/40 rounded-lg overflow-hidden mb-3 border-2 border-blue-600/60 transition-all duration-300 ${member.linkedIn ? 'hover:border-blue-500/80 cursor-pointer' : ''}`}>
                   <Image
                     src={member.image}
                     alt={member.name}
@@ -131,10 +131,10 @@ function SocietyCard({ society, index }: { society: Society; index: number }) {
 
                 {/* Member info */}
                 <div>
-                  <p className={`text-sm font-medium text-zinc-100 mb-0.5 ${member.linkedIn ? 'group-hover:text-zinc-50' : ''}`}>
+                  <p className={`text-sm font-medium text-white mb-0.5 ${member.linkedIn ? 'group-hover:text-blue-50' : ''}`}>
                     {member.name}
                   </p>
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide">
+                  <p className="text-xs text-blue-300/70 uppercase tracking-wide">
                     {formatRole(member.role)}
                   </p>
                 </div>
@@ -162,7 +162,7 @@ function ExecomCard({ member, index }: { member: ExecomMember; index: number }) 
       className="group text-center"
     >
       {/* Larger circular avatar */}
-      <div className="relative w-40 h-40 mx-auto mb-3 bg-zinc-800 rounded-full overflow-hidden border border-zinc-700 transition-all duration-300 hover:border-zinc-600">
+      <div className="relative w-40 h-40 mx-auto mb-3 bg-blue-900/40 rounded-full overflow-hidden border-2 border-blue-600/60 transition-all duration-300 hover:border-blue-500/80">
         <Image
           src={member.image}
           alt={member.name}
@@ -173,7 +173,7 @@ function ExecomCard({ member, index }: { member: ExecomMember; index: number }) 
       </div>
 
       {/* Name only */}
-      <p className="text-sm font-medium text-zinc-300">
+      <p className="text-sm font-medium text-blue-100/90">
         {member.name}
       </p>
     </motion.div>
@@ -184,9 +184,37 @@ export default function Team() {
   return (
     <section
       id="team"
-      className="relative min-h-screen bg-zinc-950 py-20 sm:py-32"
+      className="relative min-h-screen bg-gradient-to-b from-blue-800 via-blue-800 to-blue-700 py-20 sm:py-32 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Subtle animated orbs in background */}
+      <motion.div
+        className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.3, 0.2],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <motion.div
           className="text-center mb-20"
@@ -195,13 +223,13 @@ export default function Team() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-zinc-100 mb-6 relative inline-block">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 relative inline-block">
             Meet Our Team
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-zinc-700 rounded-full" />
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full" />
           </h2>
 
           <motion.p
-            className="text-lg sm:text-xl text-zinc-400 max-w-3xl mx-auto mt-8 leading-relaxed"
+            className="text-lg sm:text-xl text-blue-50/90 max-w-3xl mx-auto mt-8 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -214,7 +242,7 @@ export default function Team() {
 
         {/* TIER 1: Core Leadership - Largest cards, primary visual weight */}
         <div className="mb-20">
-          <h3 className="text-2xl font-semibold text-zinc-100 mb-8 text-center">
+          <h3 className="text-2xl font-semibold text-white mb-8 text-center">
             Student Branch Core Leadership
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -226,18 +254,18 @@ export default function Team() {
 
         {/* Visual separator */}
         <div className="flex items-center justify-center mb-16">
-          <div className="h-px w-32 bg-zinc-800" />
-          <div className="mx-4 text-zinc-600">
+          <div className="h-px w-32 bg-blue-600/40" />
+          <div className="mx-4 text-blue-400/60">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
-          <div className="h-px w-32 bg-zinc-800" />
+          <div className="h-px w-32 bg-blue-600/40" />
         </div>
 
         {/* TIER 2: Society Teams */}
         <div className="mb-20">
-          <h3 className="text-2xl font-semibold text-zinc-100 mb-8 text-center">
+          <h3 className="text-2xl font-semibold text-white mb-8 text-center">
             Chapters Teams
           </h3>
           <div className="space-y-8">
@@ -249,18 +277,18 @@ export default function Team() {
 
         {/* Visual separator */}
         <div className="flex items-center justify-center mb-16">
-          <div className="h-px w-32 bg-zinc-800" />
-          <div className="mx-4 text-zinc-600">
+          <div className="h-px w-32 bg-blue-600/40" />
+          <div className="mx-4 text-blue-400/60">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
-          <div className="h-px w-32 bg-zinc-800" />
+          <div className="h-px w-32 bg-blue-600/40" />
         </div>
 
         {/* TIER 3: Execom */}
         <div>
-          <h3 className="text-2xl font-semibold text-zinc-100 mb-8 text-center">
+          <h3 className="text-2xl font-semibold text-white mb-8 text-center">
             Execomm
           </h3>
           {/* Centered grid with 5 columns per row */}
@@ -276,4 +304,3 @@ export default function Team() {
     </section>
   );
 }
-

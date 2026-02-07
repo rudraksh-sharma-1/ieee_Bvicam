@@ -109,7 +109,7 @@ export const chapterDetails: ChapterDetail[] = [
     ],
     ieeeAnalytics: {
       delhiSection: {
-        sectionName: "Delhi Section Chapter, C16",
+        sectionName: "Delhi Section Computer Society Chapter",
         totalMembers: 1454,
         gradeDistribution: [
           { grade: 'Student Member', count: 926 },
@@ -144,7 +144,7 @@ export const chapterDetails: ChapterDetail[] = [
         ],
       },
       studentBranch: {
-        sectionName: "Bharati Vidyapeeth's Institute of Computer Applications and Management, C16",
+        sectionName: "IEEE SB Computer Society Chapter",
         totalMembers: 195,
         gradeDistribution: [
           { grade: 'Graduate Student Member', count: 195 },

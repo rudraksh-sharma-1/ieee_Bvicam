@@ -7,9 +7,37 @@ export default function About() {
   return (
     <section 
       id="about" 
-      className="relative min-h-screen flex items-center bg-zinc-950 py-20 sm:py-32"
+      className="relative min-h-screen flex items-center bg-gradient-to-b from-blue-950 via-blue-950 to-slate-950 py-20 sm:py-32 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      {/* Subtle animated orbs in background */}
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.3, 0.2],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-800/20 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Heading with underline */}
         <motion.div
           className="text-center mb-16"
@@ -18,12 +46,12 @@ export default function About() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-100 mb-4 inline-block">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 inline-block">
             About IEEE BVICAM
-            <div className="h-1 w-50 bg-zinc-700 mx-auto mt-3" />
+            <div className="h-1 w-50 bg-gradient-to-r from-blue-400 to-blue-600 mx-auto mt-3 rounded-full" />
           </h2>
           <motion.p
-            className="text-lg sm:text-xl text-zinc-400 max-w-3xl mx-auto mt-6"
+            className="text-lg sm:text-xl text-blue-100/80 max-w-3xl mx-auto mt-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -39,7 +67,7 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Image placeholder */}
           <motion.div
-            className="relative aspect-[4/3] rounded-lg overflow-hidden bg-zinc-900 border border-zinc-800"
+            className="relative aspect-[4/3] rounded-lg overflow-hidden bg-blue-900/30 border border-blue-800/30 shadow-2xl"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -54,13 +82,13 @@ export default function About() {
               priority={false}
             />
             {/* Temporary placeholder styling */}
-            {/* <div className="absolute inset-0 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm">
+            {/* <div className="absolute inset-0 flex items-center justify-center bg-blue-900/50 backdrop-blur-sm">
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-slate-800 flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-blue-800 flex items-center justify-center">
                   <span className="text-2xl">🏛️</span>
                 </div>
-                <p className="text-sm text-slate-500">BVICAM Campus Image</p>
-                <p className="text-xs text-slate-600 mt-1">Replace: /images/bvicam-placeholder.jpg</p>
+                <p className="text-sm text-blue-300">BVICAM Campus Image</p>
+                <p className="text-xs text-blue-400 mt-1">Replace: /images/bvicam-placeholder.jpg</p>
               </div>
             </div> */}
           </motion.div>
@@ -83,7 +111,7 @@ export default function About() {
             ].map((panel, index) => (
               <motion.div
                 key={index}
-                className="relative pl-6 border-l-2 border-zinc-800"
+                className="relative pl-6 border-l-2 border-blue-700/50"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -93,10 +121,10 @@ export default function About() {
                   ease: [0.22, 1, 0.36, 1] 
                 }}
               >
-                <h3 className="text-xl sm:text-2xl font-semibold text-slate-100 mb-3">
+                <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3">
                   {panel.title}
                 </h3>
-                <p className="text-zinc-400 leading-relaxed">
+                <p className="text-blue-100/70 leading-relaxed">
                   {panel.content}
                 </p>
               </motion.div>
@@ -105,7 +133,7 @@ export default function About() {
         </div>
 
         {/* <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-16 border-t border-slate-800/50"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-16 border-t border-blue-800/30"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -118,10 +146,10 @@ export default function About() {
             { label: "Achievements", value: "50+" }
           ].map((stat, i) => (
             <div key={i} className="text-center">
-              <div className="text-3xl font-bold text-slate-100 mb-2">
+              <div className="text-3xl font-bold text-white mb-2">
                 {stat.value}
               </div>
-              <div className="text-sm text-slate-500 uppercase tracking-wider">
+              <div className="text-sm text-blue-300/70 uppercase tracking-wider">
                 {stat.label}
               </div>
             </div>
@@ -131,4 +159,3 @@ export default function About() {
     </section>
   );
 }
-
