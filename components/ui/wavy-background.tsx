@@ -61,13 +61,15 @@ export const WavyBackground = ({
     render();
   };
 
+  // Blue gradient wave colors
   const waveColors = colors ?? [
-    "#38bdf8",
-    "#818cf8",
-    "#c084fc",
-    "#e879f9",
-    "#22d3ee",
+    "#60a5fa", // blue-400
+    "#3b82f6", // blue-500
+    "#2563eb", // blue-600
+    "#1d4ed8", // blue-700
+    "#93c5fd", // blue-300
   ];
+  
   const drawWave = (n: number) => {
     nt += getSpeed();
     for (i = 0; i < n; i++) {
@@ -85,7 +87,8 @@ export const WavyBackground = ({
 
   let animationId: number;
   const render = () => {
-    ctx.fillStyle = backgroundFill || "black";
+    // Dark blue gradient background
+    ctx.fillStyle = backgroundFill || "#0f172a"; // slate-900/blue-950 equivalent
     ctx.globalAlpha = waveOpacity || 0.5;
     ctx.fillRect(0, 0, w, h);
     drawWave(5);
@@ -112,7 +115,7 @@ export const WavyBackground = ({
   return (
     <div
       className={cn(
-        "h-screen flex flex-col items-center justify-center",
+        "h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 via-blue-950 to-slate-950",
         containerClassName
       )}
     >

@@ -47,7 +47,7 @@ export const teamData: TeamData = {
       id: "chair-1",
       name: "Nischay Virmani",
       role: "chairperson",
-      image: "/images/team/nishchay_virmani.webp",
+      image: "/images/team/Nishchay_virmani.jpg",
       linkedIn: "https://www.linkedin.com/in/nishchay-virmani-136836220/",
       email: "rajesh@ieee-bvicam.org"
     },
@@ -62,14 +62,14 @@ export const teamData: TeamData = {
       id: "secretary-1",
       name: "Sheetal Sharma",
       role: "secretary",
-      image: "/images/team/sheetal_sharma.webp",
+      image: "/images/team/sheetal sharma-secretary.jpg",
       linkedIn: "https://www.linkedin.com/in/sheetal-sharma-s20/",
     },
     {
       id: "treasurer-1",
       name: "Priyanshu Naithani",
       role: "treasurer",
-      image: "/images/team/priyanshu_naithani.webp",
+      image: "/images/team/Priyanshu_naithani.png",
       linkedIn: "https://www.linkedin.com/in/priyanshu-naithani-352599262/",
     },
   ],
@@ -105,8 +105,8 @@ export const teamData: TeamData = {
           id: "smc-treasurer",
           name: "Rahul Sardana",
           role: "treasurer",
-          image: "/images/team/Rahul_sardana.webp",
-         /*  linkedIn: "https://www.linkedin.com/in/priyanshu-naithani-352599262/", */
+          image: "/images/team/Rahul-s.jpg",
+          linkedIn: "https://www.linkedin.com/in/rahul-sardana-20873b3a7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         }
       ]
     },
@@ -119,7 +119,7 @@ export const teamData: TeamData = {
           id: "wie-chair",
           name: "Shruti Dhingra",
           role: "chairperson",
-          image: "/images/team/Shruti_dhingra.webp",
+          image: "/images/team/Shruti_Dhingra.jpg",
           linkedIn: "https://www.linkedin.com/in/shruti-dhingra/",
         },
         {
@@ -133,14 +133,14 @@ export const teamData: TeamData = {
           id: "wie-secretary",
           name: "Kajal Mishra",
           role: "secretary",
-          image: "/images/team/Kajal_Mishra.webp",
+          image: "/images/team/Kajal_Mishra.jpg",
           linkedIn: "https://www.linkedin.com/in/kajal-mishra-06924430a/",
         },
         {
           id: "wie-treasurer",
           name: "Md Nazare Alam",
           role: "treasurer",
-          image: "/images/team/md_nazare_alam.webp",
+          image: "/images/team/Md Nazare Alam.jpeg",
           linkedIn: "https://www.linkedin.com/in/imnazarealam/",
         }
       ]
@@ -176,7 +176,7 @@ export const teamData: TeamData = {
           name: "Harkirat Singh",
           role: "treasurer",
           image: "/images/team/harkirat_singh.jpeg",
-          /* linkedIn: "https://www.linkedin.com/in/priyanshu-naithani-352599262/", */
+          linkedIn: "http://www.linkedin.com/in/harkirat-singh-4327223a9",
         }
       ]
     },
@@ -189,7 +189,7 @@ export const teamData: TeamData = {
           id: "aps-chair",
           name: "Mankirat",
           role: "chairperson",
-          image: "/images/team/mankirat_singh.jpg",
+          image: "/images/team/Mankirat singh - chair.jpg",
           linkedIn: "https://www.linkedin.com/in/mankirat-singh-217a3a290/",
         },
         {
@@ -197,7 +197,7 @@ export const teamData: TeamData = {
           name: "Laksya Gupta",
           role: "vice-chair",
           image: "/images/team/Lakshya_gupta.jpg",
-          /* linkedIn: "https://www.linkedin.com/in/priyanshu-naithani-352599262/", */
+          linkedIn: "https://www.linkedin.com/in/lakshya-gupta-6b47022a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         },
         {
           id: "aps-secretary",
@@ -210,7 +210,7 @@ export const teamData: TeamData = {
           id: "aps-treasurer",
           name: "Arpita",
           role: "treasurer",
-          image: "/images/team/Arpita.jpeg",
+          image: "/images/team/arpitaa.jpeg",
           linkedIn: "https://www.linkedin.com/in/arpita-500a7a2b0/",
         }
       ]
@@ -232,7 +232,7 @@ export const teamData: TeamData = {
     {
       id: "execom-3",
       name: "Mayan Wadhawan",
-      image: "/images/team/mayan_wadhawan.JPG"
+      image: "/images/team/Mayan Wadhawan.jpg"
     },
     {
       id: "execom-4",
@@ -268,6 +268,16 @@ export const teamData: TeamData = {
       id: "execom-10",
       name: "Nityam Kumar Tiwari",
       image: "/images/team/Nityam_kumar_tiwari.jpg"
+    },
+    {
+      id: "execom-11",
+      name: "Nivesh Dagar",
+      image: "/images/team/Nivesh Dagar_creativesHead.png"
+    },
+    {
+      id: "execom-12",
+      name: "Nivesh Dagar",
+      image: "/images/team/Ankit kumar jha PR co head.jpeg"
     },
   ]
 };

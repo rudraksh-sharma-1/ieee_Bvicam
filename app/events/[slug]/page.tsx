@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import EventSubNav from "@/components/EventSubNav";
 import EventTimeline from "@/components/EventTimeline";
 import EventHeroTitle from "@/components/EventHeroTitle";
+import EventHeroParticles from "@/components/Eventheroparticles";
 
 interface PageProps {
   params: Promise<{
@@ -62,15 +63,18 @@ export default async function EventDetailPage({ params }: PageProps) {
         />
       )}
 
-      <main className="min-h-screen bg-zinc-950 pt-18">
+      <main className="min-h-screen bg-gradient-to-b from-blue-900 via-blue-950 to-slate-950 pt-18">
         {/* Hero Section */}
-        <div className="relative border-b border-zinc-800/50 bg-gradient-to-b from-zinc-900 to-zinc-950">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="relative border-b border-blue-800/30 bg-gradient-to-b from-blue-800/30 to-blue-950/50 overflow-hidden">
+          {/* Particles background */}
+          <EventHeroParticles />
+          
+          <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="space-y-4">
               
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-800/50 border border-zinc-700/50">
-                <span className="w-2 h-2 rounded-full bg-zinc-500" />
-                <span className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-800/40 backdrop-blur-sm border border-blue-600/40">
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-xs font-medium text-blue-200/90 uppercase tracking-wider">
                   {event.type === "past" ? "Past Event" : "Upcoming Event"}
                 </span>
               </div>
@@ -78,12 +82,12 @@ export default async function EventDetailPage({ params }: PageProps) {
               <EventHeroTitle eventName={event.eventName} />
 
       
-              <p className="text-lg text-zinc-400">
+              <p className="text-lg text-blue-100/80">
                 {event.duration || event.date}
               </p>
 
        
-              <p className="text-zinc-300 leading-relaxed max-w-3xl">
+              <p className="text-blue-50/85 leading-relaxed max-w-3xl">
                 {event.description}
               </p>
             </div>
@@ -101,14 +105,17 @@ export default async function EventDetailPage({ params }: PageProps) {
   );
 }
 
-// Placeholder component for upcoming events
+// Placeholder component for upcoming events with particles
 function UpcomingPlaceholder() {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-      <div className="space-y-6">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-zinc-800/50 border-2 border-zinc-700">
+    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center overflow-hidden">
+      {/* Particles for placeholder */}
+      <EventHeroParticles />
+      
+      <div className="relative z-10 space-y-6">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-900/40 backdrop-blur-sm border-2 border-blue-500/40 shadow-lg shadow-blue-500/20">
           <svg 
-            className="w-10 h-10 text-zinc-500" 
+            className="w-10 h-10 text-blue-300/80" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -121,8 +128,10 @@ function UpcomingPlaceholder() {
             />
           </svg>
         </div>
-        <h2 className="text-3xl font-bold text-zinc-100">Coming Soon</h2>
-        <p className="text-zinc-400 max-w-md mx-auto">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-100 to-white bg-clip-text text-transparent">
+          Coming Soon
+        </h2>
+        <p className="text-blue-100/80 max-w-md mx-auto">
           Exciting new events are being planned. Check back soon for updates on our upcoming activities!
         </p>
       </div>

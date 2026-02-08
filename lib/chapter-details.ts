@@ -45,14 +45,34 @@ export interface ChapterStat {
   icon?: string;
 }
 
+export interface SpeakerInfo {
+  name: string;
+  designation?: string;
+  organization?: string;
+  photo?: string;
+  bio?: string;
+}
+
+export interface ScheduleItem {
+  time: string;
+  activity: string;
+  description?: string;
+}
+
 export interface PastEvent {
   id: string;
   title: string;
   description: string;
   image: string;
+  gallery?: string[]; // Multiple event photos
   date: string;
   time: string;
+  mode?: 'online' | 'offline' | 'hybrid';
+  venue?: string;
   participants?: number;
+  agenda?: string;
+  schedule?: ScheduleItem[];
+  speakers?: SpeakerInfo[];
 }
 
 export interface ChapterDetail {
@@ -173,53 +193,98 @@ export const chapterDetails: ChapterDetail[] = [
         name: "Manas Kumar Sharma",
         designation: "Chapter Chair",
         image: "/images/team/manas_kumar_sharma.jpg",
-        bio: "Full-stack developer with expertise in cloud computing and distributed systems, passionate about AI/ML.",
-        linkedIn: "https://linkedin.com/in/arjunpatel"
+        bio: "A motivated and dedicated individual with a strong passion for learning and personal growth. Always eager to take on new challenges and continuously improve skills. Strong belief in teamwork, discipline, and responsibility in both academic and professional settings. Positive attitude and determination help in adapting effectively to different situations. Aiming to contribute meaningfully to every opportunity that comes along.",
+        linkedIn: "https://www.linkedin.com/in/manas-kumar-sharma-52300017b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
       },
       {
         id: "cs-vice",
         name: "Nikshay Singh",
         designation: "Vice Chair",
         image: "/images/team/nikshay_singh.jpg",
-        bio: "Cybersecurity enthusiast specializing in ethical hacking and network security protocols.",
-        linkedIn: "https://linkedin.com/in/nehagupta"
+        bio: "Nikshay serves as the Vice Chair of the Computer Society Chapter of IEEE, where he promotes teamwork and ensures strong collaboration among members. He actively supports the organization of technical events, workshops, and seminars to enhance learning and innovation. Through his leadership, he helps create a productive and inclusive environment within the chapter.",
+        linkedIn: "https://www.linkedin.com/in/nikshay-singh-b4425522a"
       },
       {
         id: "cs-sec",
         name: "Khushi Talwar",
         designation: "Secretary",
         image: "/images/team/khushi_talwar.jpg",
-        bio: "Mobile app developer and UI/UX designer with a focus on creating intuitive user experiences.",
-        linkedIn: "https://linkedin.com/in/vikramsingh"
+        bio: "Khushi Talwar, Secretary of the IEEE Computer Society Chapter, is a disciplined and proactive individual with a strong focus on growth, leadership, and meaningful contribution. She takes pride in managing communication, documentation, and coordination with clarity and responsibility. She enjoys working in collaborative environments where ideas are shared and executed with purpose. Known for her calm approach, reliability, and attention to detail, she adapts easily to new challenges. She aims to contribute positively to initiatives that promote learning, innovation, and collective progress.",
+        linkedIn: "https://www.linkedin.com/in/khushi-talwar-4727b6274/"
       },
       {
         id: "cs-tres",
         name: "Harkirat Singh",
         designation: "Treasurer",
         image: "/images/team/harkirat_singh.jpeg",
-        bio: "Mobile app developer and UI/UX designer with a focus on creating intuitive user experiences.",
-        linkedIn: "https://linkedin.com/in/vikramsingh"
+        bio: "Harkirat Singh, I am currently the Treasurer of the Computer Society. I manage the budgeting for our activities and events. I am responsible, organized, and detail-oriented, and I enjoy working in a team while continuously improving my skills.",
+        linkedIn: "http://www.linkedin.com/in/harkirat-singh-4327223a9"
       },
     ],
     pastEvents: [
       {
-        id: "ai-workshop",
-        title: "AI/ML Bootcamp",
-        description: "Intensive 3-day bootcamp covering machine learning fundamentals, neural networks, and practical applications using Python and TensorFlow.",
-        image: "/images/chapters/cs-logo.webp",
-        date: "2025-01-20",
-        time: "9:00 AM - 6:00 PM",
-        participants: 80
-      },
-      {
         id: "hackathon-24",
-        title: "CodeFest 2024",
-        description: "24-hour hackathon challenging students to build innovative solutions for real-world problems with industry mentorship.",
-        image: "/images/chapters/cs-logo.webp",
+        title: "CodeFest 2024 - National Hackathon",
+        description: "A 24-hour coding marathon where teams of developers collaborate to build innovative solutions addressing real-world problems. Participants received mentorship from industry professionals and competed for prizes worth ₹2 lakhs.",
+        image: "/images/events/codefest-main.webp",
+        gallery: [
+          "/images/meetings/temp-1.jpg",
+          "/images/meetings/temp-2.jpg",
+          "/images/meetings/temp-3.jpg",
+          "/images/meetings/temp-4.jpg",
+        ],
         date: "2024-11-25",
-        time: "9:00 AM - 9:00 AM",
-        participants: 100
-      }
+        time: "9:00 AM (Day 1) - 9:00 AM (Day 2)",
+        mode: "hybrid",
+        venue: "BVICAM Campus & Online Platform",
+        participants: 100,
+        agenda: "To foster innovation and problem-solving skills among students by providing a platform to develop creative tech solutions. Focus areas included Healthcare Tech, FinTech, EdTech, and Sustainability.",
+        schedule: [
+          {
+            time: "9:00 AM - 10:00 AM",
+            activity: "Opening Ceremony",
+            description: "Team registration, problem statement reveal, and rules briefing"
+          },
+          {
+            time: "10:00 AM - 12:00 PM",
+            activity: "Ideation & Planning Phase",
+            description: "Teams brainstorm and finalize their approach"
+          },
+          {
+            time: "12:00 PM - 8:00 PM",
+            activity: "Development Sprint 1",
+            description: "Initial development and prototyping"
+          },
+          {
+            time: "8:00 PM - 9:00 PM",
+            activity: "Dinner & Mentor Rounds",
+          },
+          {
+            time: "9:00 PM - 2:00 AM",
+            activity: "Development Sprint 2",
+            description: "Core feature implementation"
+          },
+          {
+            time: "2:00 AM - 6:00 AM",
+            activity: "Late Night Coding",
+            description: "Bug fixes and final touches"
+          },
+          {
+            time: "6:00 AM - 9:00 AM",
+            activity: "Final Presentations",
+            description: "Teams present their solutions to judges"
+          },
+        ],
+        speakers: [
+          {
+            name: "Amit Verma",
+            designation: "CTO",
+            organization: "TechStartup Inc.",
+            photo: "/images/team/user_template.png",
+            bio: "Serial entrepreneur and tech leader with successful exits in the startup ecosystem."
+          },
+        ],
+      },
     ],
     metadata: {
       title: "Computer Society | IEEE BVICAM",
@@ -264,32 +329,32 @@ export const chapterDetails: ChapterDetail[] = [
         name: "Vaibhav Pathak",
         designation: "Chapter Chair",
         image: "/images/team/vaibhav_pathak.webp",
-        bio: "Final year ECE student specializing in analog circuit design with a passion for VLSI and embedded systems.",
-        linkedIn: "https://linkedin.com/in/priyasharma"
+        bio: "Vaibhav Pathak serves as the Chair of the IEEE Systems, Man, and Cybernetics (SMC) society at BVICAM, New Delhi. He leads the chapter in advancing systems engineering and cybernetics. Vaibhav is dedicated to fostering technical excellence and professional growth, helping members with opportunities for research, networking, and innovative real-world applications.",
+        linkedIn: "https://www.linkedin.com/in/vaibhav-pathak2003?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
       },
       {
         id: "smc-vice",
         name: "Rohan Swami",
         designation: "Vice Chair",
         image: "/images/team/rohan_swami.webp",
-        bio: "Enthusiastic about signal processing and RF circuit design, currently working on IoT projects.",
-        linkedIn: "https://linkedin.com/in/rahulverma"
+        bio: "Rohan Swami serves as the Vice Chair of the IEEE Systems, Man, and Cybernetics (SMC) chapter. He is dedicated to fostering a collaborative and inclusive environment that encourages innovation and leadership. The chapter focuses on systems science and engineering, human–machine systems, cybernetics, and their real-world applications through research, technical activities, networking, and professional development opportunities.",
+        linkedIn: "http://www.linkedin.com/in/rohan-swami-0a50a0330"
       },
       {
         id: "smc-sec",
         name: "Nimisha Jindal",
         designation: "Secretary",
         image: "/images/team/nimisha_jindal.webp",
-        bio: "Focused on power electronics and renewable energy systems with hands-on PCB design experience.",
-        linkedIn: "https://linkedin.com/in/ananyasingh"
+        bio: "Nimisha Jindal serves as the Secretary of the IEEE Systems, Man, and Cybernetics Society (SMC). She is responsible for managing records, coordinating official communications, and ensuring accurate documentation. Her structured approach and reliability support efficient coordination and contribute to the smooth functioning of the organization.",
+        linkedIn: "https://www.linkedin.com/in/nimisha-j-74b169279?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
       },
       {
         id: "smc-tres",
         name: "Rahul Sardana",
         designation: "Treasurer",
-        image: "/images/team/Rahul_sardana.webp",
-        bio: "Focused on power electronics and renewable energy systems with hands-on PCB design experience.",
-        linkedIn: "https://linkedin.com/in/ananyasingh"
+        image: "/images/team/Rahul-s.jpg",
+        bio: "Rahul Sardana serves as the Treasurer of the IEEE Systems, Man, and Cybernetics Society (SMC). He is responsible for overseeing financial planning, budget management, and expense tracking. His analytical approach and attention to financial discipline ensure transparency, accountability, and effective utilization of resources within the organization.",
+        linkedIn: "https://www.linkedin.com/in/rahul-sardana-20873b3a7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
       },
     ],
     pastEvents: [
@@ -354,17 +419,17 @@ export const chapterDetails: ChapterDetail[] = [
         id: "aps-chair",
         name: "Mankirat",
         designation: "Chapter Chair",
-        image: "/images/team/mankirat_singh.jpg",
-        bio: "Robotics engineer specializing in autonomous navigation and computer vision for mobile robots.",
-        linkedIn: "https://linkedin.com/in/adityamalhotra"
+        image: "/images/team/Mankirat singh - chair.jpg",
+        bio: "I am a passionate tech enthusiast with a deep curiosity for emerging technologies and innovative solutions. I enjoy exploring new strategies and ideas that have the potential to positively impact the tech world. Continuously learning and experimenting, I strive to stay ahead in the fast-evolving technology landscape. I am committed to applying my knowledge and skills to contribute meaningfully to society. Being part of projects that drive change and innovation gives me immense satisfaction and motivation",
+        linkedIn: "https://www.linkedin.com/in/mankirat-singh-217a3a290?utm_source=share_via&utm_content=profile&utm_medium=member_android"
       },
       {
         id: "aps-vice",
         name: "Laksya Gupta",
         designation: "Vice Chair",
         image: "/images/team/Lakshya_gupta.jpg",
-        bio: "Mechatronics enthusiast with expertise in robot kinematics and control systems design.",
-        linkedIn: "https://linkedin.com/in/shreyakapoor"
+        bio: "I work with the team to organize events, workshops, and technical activities. I’m excited about antennas, wireless systems, and innovation in communication. My goal is to boost participation and create valuable learning experiences.",
+        linkedIn: "https://www.linkedin.com/in/lakshya-gupta-6b47022a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
       },
       {
         id: "aps-sec",
@@ -378,8 +443,8 @@ export const chapterDetails: ChapterDetail[] = [
         id: "aps-tres",
         name: "Arpita",
         designation: "Treasurer",
-        image: "/images/team/Arpita.jpeg",
-        bio: "Drone technology specialist working on swarm robotics and aerial surveillance systems.",
+        image: "/images/team/arpitaa.jpeg",
+        bio: "I am Arpita, Treasurer of the IEEE APS Society. I believe and focus on transparent fund management, clear communication, and strong teamwork to keep things running smoothly. I enjoy bringing structure behind the scenes because well-managed numbers make great ideas possible.",
         linkedIn: "https://linkedin.com/in/karanmehta"
       },
     ],
@@ -445,33 +510,33 @@ export const chapterDetails: ChapterDetail[] = [
         id: "wie-chair",
         name: "Shruti Dhingra",
         designation: "Chapter Chair",
-        image: "/images/team/Shruti_dhingra.webp",
-        bio: "Software engineer and advocate for diversity in tech, working on initiatives to bridge the gender gap in engineering.",
-        linkedIn: "https://linkedin.com/in/ishitaagarwal"
+        image: "/images/team/Shruti_Dhingra.jpg",
+        bio: "I, Shruti Dhingra the Chairperson of the Women in Engineering (WIE) Society at my college student branch. I work towards empowering students, especially women, through technical, professional, and leadership initiatives. I focus on creating opportunities for skill development, innovation, and collaboration. I believe in building an inclusive community where ideas turn into impactful actions. My goal is to inspire more young women to grow and excel in engineering and emerging technologies.",
+        linkedIn: "http://www.linkedin.com/in/shruti-dhingra"
       },
       {
         id: "wie-vice",
         name: "Nishant Malhotra",
         designation: "Vice Chair",
         image: "/images/team/nishant_malhotra.webp",
-        bio: "Data scientist passionate about empowering women through technology and creating inclusive tech communities.",
-        linkedIn: "https://linkedin.com/in/riyasharma"
+        bio: "Nishant serves as the Vice Chair of the IEEE Women in Engineering chapter. They are committed to cultivating a supportive and empowering environment. The chapter's core focus is on facilitating networking, mentorship, and professional development opportunities. Nishant is enthusiastic about inspiring future generations in STEM fields.",
+        linkedIn: "https://www.linkedin.com/in/nishant-malhotra-3204552a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
       },
       {
         id: "wie-sec",
         name: "Kajal Mishra",
         designation: "Secretary",
-        image: "/images/team/Kajal_Mishra.webp",
-        bio: "Electronics engineer focused on IoT and sustainable technology solutions for social impact.",
-        linkedIn: "https://linkedin.com/in/tanvireddy"
+        image: "/images/team/Kajal_Mishra.JPG",
+        bio: "Kajal Mishra serves as the Secretary of the IEEE Women in Engineering (WIE) Affinity Group. With a strong sense of organization and responsibility, she oversees documentation, communication, and record management. Her disciplined and collaborative approach ensures seamless coordination and contributes to the group’s overall efficiency and success.",
+        linkedIn: "https://www.linkedin.com/in/kajal-mishra-06924430a"
       },
       {
         id: "wie-tres",
         name: "Md Nazare Alam",
         designation: "Treasurer",
-        image: "/images/team/md_nazare_alam.webp",
-        bio: "Electronics engineer focused on IoT and sustainable technology solutions for social impact.",
-        linkedIn: "https://linkedin.com/in/tanvireddy"
+        image: "/images/team/Md Nazare Alam.jpeg",
+        bio: "Nazare serves as the Treasurer of the IEEE Women in Engineering (WIE) Chapter, playing a key role in managing resources and supporting the chapter’s initiatives. They are deeply committed to fostering a supportive and empowering environment that encourages inclusion and growth.",
+        linkedIn: "https://www.linkedin.com/in/imnazarealam/"
       },
     ],
     pastEvents: [

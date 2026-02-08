@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import type { EventDay } from "@/lib/event-details";
@@ -10,14 +10,66 @@ interface EventTimelineProps {
 }
 
 export default function EventTimeline({ days }: EventTimelineProps) {
-  return (
-    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Vertical timeline line - appears progressively */}
-      <div className="absolute left-12 md:left-15 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-700 to-transparent" />
+  const [particles, setParticles] = useState<Array<{
+    id: number;
+    x: number;
+    y: number;
+    size: number;
+    duration: number;
+    delay: number;
+  }>>([]);
 
-      {days.map((day, dayIndex) => (
-        <TimelineDay key={day.dayNumber} day={day} dayIndex={dayIndex} />
-      ))}
+  useEffect(() => {
+    // Generate particles only on client-side to avoid hydration mismatch
+    setParticles(
+      Array.from({ length: 15 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 2 + 1,
+        duration: Math.random() * 15 + 20,
+        delay: Math.random() * 8,
+      }))
+    );
+  }, []);
+
+  return (
+    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 overflow-hidden">
+      {/* Subtle particle background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full bg-blue-300/15"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+            }}
+            animate={{
+              y: [0, -40, 0],
+              opacity: [0.1, 0.4, 0.1],
+              scale: [1, 1.3, 1],
+            }}
+            transition={{
+              duration: particle.duration,
+              repeat: Infinity,
+              delay: particle.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Vertical timeline line with gradient */}
+      <div className="absolute left-12 md:left-15 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-blue-400/40 to-transparent" />
+
+      <div className="relative z-10">
+        {days.map((day, dayIndex) => (
+          <TimelineDay key={day.dayNumber} day={day} dayIndex={dayIndex} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -34,15 +86,17 @@ function TimelineDay({ day, dayIndex }: { day: EventDay; dayIndex: number }) {
       transition={{ duration: 0.6, delay: dayIndex * 0.1 }}
       className="relative mb-16 last:mb-0"
     >
-      {/* Day marker */}
+      {/* Day marker with gradient */}
       <div className="flex items-center gap-6 mb-8">
-        <div className="relative z-10 flex items-center justify-center w-16 h-16 rounded-full bg-zinc-900 border-2 border-zinc-700">
-          <span className="text-lg font-bold text-zinc-100">{day.dayNumber}</span>
+        <div className="relative z-10 flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-700/30 backdrop-blur-sm border-2 border-blue-400/50 shadow-lg shadow-blue-500/20">
+          <span className="text-lg font-bold bg-gradient-to-br from-blue-100 to-white bg-clip-text text-transparent">{day.dayNumber}</span>
         </div>
         <div>
-          <h3 className="text-xl font-semibold text-zinc-100">Day {day.dayNumber}</h3>
-          <p className="text-sm text-zinc-400">{day.date}</p>
-          <p className="text-xs text-zinc-500 mt-1">{day.numberOfEvents} {day.numberOfEvents === 1 ? 'event' : 'events'}</p>
+          <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-100 to-white bg-clip-text text-transparent">
+            Day {day.dayNumber}
+          </h3>
+          <p className="text-sm text-blue-200/80">{day.date}</p>
+          <p className="text-xs text-blue-300/60 mt-1">{day.numberOfEvents} {day.numberOfEvents === 1 ? 'event' : 'events'}</p>
         </div>
       </div>
 
@@ -70,8 +124,10 @@ function EventCard({ event, eventIndex }: { event: EventDay['events'][0]; eventI
     >
       {/* Event content */}
       <div className="space-y-4">
-        <h4 className="text-lg font-semibold text-zinc-100">{event.eventTitle}</h4>
-        <p className="text-zinc-300 leading-relaxed">{event.eventDescription}</p>
+        <h4 className="text-lg font-semibold bg-gradient-to-r from-blue-100 to-blue-50 bg-clip-text text-transparent">
+          {event.eventTitle}
+        </h4>
+        <p className="text-blue-100/85 leading-relaxed">{event.eventDescription}</p>
 
         {/* Images */}
         {event.images.length > 0 && (
@@ -82,7 +138,7 @@ function EventCard({ event, eventIndex }: { event: EventDay['events'][0]; eventI
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, delay: 0.2 + imgIndex * 0.1 }}
-                className="relative aspect-video rounded-lg overflow-hidden border border-zinc-800 group"
+                className="relative aspect-video rounded-lg overflow-hidden border-2 border-blue-500/30 group shadow-lg shadow-blue-900/20"
               >
                 <Image
                   src={img.src}
@@ -91,8 +147,8 @@ function EventCard({ event, eventIndex }: { event: EventDay['events'][0]; eventI
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-zinc-900/0 group-hover:bg-zinc-900/10 transition-colors duration-300" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-zinc-700/50 group-hover:ring-zinc-600 transition-colors duration-300 rounded-lg" />
+                <div className="absolute inset-0 bg-blue-950/0 group-hover:bg-blue-950/10 transition-colors duration-300" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-blue-400/30 group-hover:ring-blue-300/50 transition-colors duration-300 rounded-lg" />
               </motion.div>
             ))}
           </div>

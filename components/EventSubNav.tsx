@@ -35,7 +35,7 @@ export default function EventSubNav({ currentEventSlug, events, type }: EventSub
 
   return (
     <motion.div 
-      className="sticky z-30 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/50 transition-all duration-300"
+      className="sticky z-30 bg-blue-950/95 backdrop-blur-md border-b border-blue-800/40 transition-all duration-300"
       style={{
         top: isScrolled ? "0px" : "4.5rem" // 4.5rem = top-18
       }}
@@ -45,7 +45,7 @@ export default function EventSubNav({ currentEventSlug, events, type }: EventSub
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 py-4 overflow-x-auto scrollbar-hide">
-          <span className="text-sm font-medium text-zinc-500 mr-2 whitespace-nowrap">
+          <span className="text-sm font-medium text-blue-300/70 mr-2 whitespace-nowrap">
             {type === "past" ? "Past Events:" : "Upcoming Events:"}
           </span>
           {filteredEvents.map((event) => {
@@ -57,8 +57,8 @@ export default function EventSubNav({ currentEventSlug, events, type }: EventSub
                 className={`
                   px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-all duration-200
                   ${isActive 
-                    ? "bg-zinc-800 text-zinc-100 shadow-sm" 
-                    : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50"
+                    ? "bg-blue-800/60 text-white shadow-lg shadow-blue-900/20 border border-blue-600/50" 
+                    : "text-blue-100/70 hover:text-white hover:bg-blue-800/40 border border-transparent hover:border-blue-700/30"
                   }
                 `}
               >

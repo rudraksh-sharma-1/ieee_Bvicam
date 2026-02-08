@@ -20,7 +20,7 @@ function DatasetChart({ data, isInView }: { data: IEEEAnalytics; isInView: boole
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded shadow-lg">
+        <div className="bg-blue-950/95 backdrop-blur-sm text-blue-50 text-xs px-3 py-2 rounded shadow-lg border border-blue-700/50">
           {payload[0].payload.fullName}: {payload[0].value}
         </div>
       );
@@ -45,22 +45,22 @@ function DatasetChart({ data, isInView }: { data: IEEEAnalytics; isInView: boole
             bottom: 20,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#3b82f6" opacity={0.2} vertical={false} />
           <XAxis 
             dataKey="name" 
-            tick={{ fill: '#52525b', fontSize: 14, fontWeight: 500 }}
-            axisLine={{ stroke: '#d4d4d8' }}
+            tick={{ fill: '#93c5fd', fontSize: 14, fontWeight: 500 }}
+            axisLine={{ stroke: '#60a5fa' }}
             tickLine={false}
           />
           <YAxis 
-            tick={{ fill: '#52525b', fontSize: 14, fontWeight: 500 }}
-            axisLine={{ stroke: '#d4d4d8' }}
+            tick={{ fill: '#93c5fd', fontSize: 14, fontWeight: 500 }}
+            axisLine={{ stroke: '#60a5fa' }}
             tickLine={false}
             width={40}
           />
           <Tooltip 
             content={<CustomTooltip />}
-            cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+            cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
           />
           <Bar 
             dataKey="count" 
@@ -124,15 +124,15 @@ function GenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: boolea
       </svg>
       
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <div className="text-2xl font-bold text-zinc-100">{data.totalMembers}</div>
-        <div className="text-xs text-zinc-400">Total</div>
+        <div className="text-2xl font-bold text-white">{data.totalMembers}</div>
+        <div className="text-xs text-blue-200/70">Total</div>
       </div>
 
       {hoveredSegment !== null && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-zinc-800 text-zinc-100 text-xs px-3 py-2 rounded whitespace-nowrap shadow-lg z-20"
+          className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-blue-950/95 backdrop-blur-sm text-blue-50 text-xs px-3 py-2 rounded whitespace-nowrap shadow-lg z-20 border border-blue-700/50"
         >
           {genderData[hoveredSegment].label}: {genderData[hoveredSegment].value} ({genderData[hoveredSegment].percentage}%)
         </motion.div>
@@ -153,7 +153,7 @@ function TechnologyFocusChart({ data, isInView }: { data: IEEEAnalytics; isInVie
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-zinc-800 text-white text-sm px-3 py-2 rounded shadow-lg">
+        <div className="bg-blue-950/95 backdrop-blur-sm text-blue-50 text-sm px-3 py-2 rounded shadow-lg border border-blue-700/50">
           <p className="font-semibold mb-1">{payload[0].payload.area}</p>
           <p>Count: {payload[0].value}</p>
         </div>
@@ -198,7 +198,7 @@ function TechnologyFocusChart({ data, isInView }: { data: IEEEAnalytics; isInVie
           y={0} 
           dy={index * 12 - (displayLines.length - 1) * 6 + 4}
           textAnchor="end" 
-          fill="#a1a1aa" 
+          fill="#93c5fd" 
           fontSize={"12"}
         >
           {line}
@@ -226,19 +226,19 @@ function TechnologyFocusChart({ data, isInView }: { data: IEEEAnalytics; isInVie
             bottom: 10,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" horizontal={true} vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#3b82f6" opacity={0.2} horizontal={true} vertical={false} />
           <XAxis 
             type="number" 
-            tick={{ fill: '#a1a1aa', fontSize: 11 }}
-            axisLine={{ stroke: '#52525b' }}
-            tickLine={{ stroke: '#52525b' }}
+            tick={{ fill: '#93c5fd', fontSize: 11 }}
+            axisLine={{ stroke: '#60a5fa' }}
+            tickLine={{ stroke: '#60a5fa' }}
           />
           <YAxis 
             type="category" 
             dataKey="area"
             tick={<CustomYAxisTick />}
-            axisLine={{ stroke: '#52525b' }}
-            tickLine={{ stroke: '#52525b' }}
+            axisLine={{ stroke: '#60a5fa' }}
+            tickLine={{ stroke: '#60a5fa' }}
             width={1}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }} />
@@ -287,14 +287,14 @@ function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: b
     if (active && payload && payload.length) {
       const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0);
       return (
-        <div className="bg-zinc-800 text-white text-lg px-3 py-2 rounded shadow-lg">
+        <div className="bg-blue-950/95 backdrop-blur-sm text-blue-50 text-lg px-3 py-2 rounded shadow-lg border border-blue-700/50">
           <p className="font-semibold mb-1">{payload[0]?.payload.fullGrade}</p>
           {payload.reverse().map((entry: any, index: number) => (
             <p key={index} style={{ color: entry.color }}>
               {entry.name}: {entry.value}
             </p>
           ))}
-          <p className="font-semibold mt-1 pt-1 border-t border-zinc-600">
+          <p className="font-semibold mt-1 pt-1 border-t border-blue-700">
             Total: {total}
           </p>
         </div>
@@ -320,16 +320,16 @@ function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: b
             bottom: 20,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#3b82f6" opacity={0.2} />
           <XAxis 
             dataKey="grade" 
-            tick={{ fill: '#a1a1aa', fontSize: 14 }}
-            axisLine={{ stroke: '#52525b' }}
+            tick={{ fill: '#93c5fd', fontSize: 14 }}
+            axisLine={{ stroke: '#60a5fa' }}
             tickLine={false}
           />
           <YAxis 
-            tick={{ fill: '#a1a1aa', fontSize: 14 }}
-            axisLine={{ stroke: '#52525b' }}
+            tick={{ fill: '#93c5fd', fontSize: 14 }}
+            axisLine={{ stroke: '#60a5fa' }}
             tickLine={false}
             width={40}
           />
@@ -338,7 +338,7 @@ function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: b
             wrapperStyle={{ paddingTop: '20px' }}
             iconType="square"
             formatter={(value) => (
-              <span className="text-zinc-400 text-lg">{value}</span>
+              <span className="text-blue-200/80 text-lg">{value}</span>
             )}
           />
           <Area 
@@ -372,22 +372,6 @@ function GradeGenderChart({ data, isInView }: { data: IEEEAnalytics; isInView: b
           />
         </AreaChart>
       </ResponsiveContainer>
-      
-      {/* Legend */}
-      {/* <div className="flex gap-4 justify-center mt-4 text-xs">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 bg-zinc-600 rounded" />
-          <span className="text-zinc-400">Male</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 bg-orange-400 rounded" />
-          <span className="text-zinc-400">Female</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 bg-slate-400 rounded" />
-          <span className="text-zinc-400">Unknown</span>
-        </div>
-      </div> */}
     </motion.div>
   );
 }
@@ -412,9 +396,9 @@ function ChartCard({
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="relative bg-zinc-900 rounded-xl border border-zinc-800 p-4 transition-all duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]"
+      className="relative bg-blue-950/40 backdrop-blur-sm rounded-xl border-2 border-blue-700/40 p-4 transition-all duration-300 hover:border-blue-600/60 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:bg-blue-950/50"
     >
-      <h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3>
+      <h3 className="text-sm font-semibold text-blue-100 mb-3">{title}</h3>
       {children}
     </motion.div>
   );
@@ -438,8 +422,38 @@ export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
   const { delhiSection, studentBranch } = ieeeAnalytics;
 
   return (
-    <section ref={ref} className="relative py-16 sm:py-24 bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="relative py-16 sm:py-24 bg-gradient-to-b from-blue-900 via-blue-950 to-slate-950 overflow-hidden">
+      {/* Smooth transition overlay at top */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-blue-900/50 to-transparent pointer-events-none" />
+      
+      {/* Pulsating background orbs */}
+      <motion.div
+        className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.35, 0.15],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.4, 1],
+          opacity: [0.1, 0.3, 0.1],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -448,10 +462,10 @@ export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-100 mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-100 via-white to-blue-100 bg-clip-text text-transparent mb-4">
             Chapter Insights
           </h2>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+          <p className="text-blue-100/80 text-lg max-w-2xl mx-auto">
             IEEE Delhi Section & Student Branch Analytics
           </p>
         </motion.div>
@@ -462,21 +476,13 @@ export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-2xl font-bold text-zinc-200 mb-6 flex items-center gap-2"
+            className="text-2xl font-bold text-blue-100 mb-6 flex items-center gap-2"
           >
-            <div className="w-1 h-6 bg-blue-500 rounded" />
+            <div className="w-1 h-6 bg-blue-400 rounded shadow-lg shadow-blue-400/50" />
             {delhiSection.sectionName}
           </motion.h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* <ChartCard title="Count by Region and Grade" index={0}>
-              <DatasetChart data={delhiSection} isInView={isInView} />
-            </ChartCard>
-
-            <ChartCard title="Count by Gender" index={1}>
-              <GenderChart data={delhiSection} isInView={isInView} />
-            </ChartCard> */}
-
             <ChartCard title="Count by Technology Focus Area" index={2}>
               <TechnologyFocusChart data={delhiSection} isInView={isInView} />
             </ChartCard>
@@ -493,21 +499,13 @@ export default function ChapterStats({ ieeeAnalytics }: ChapterStatsProps) {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-2xl font-bold text-zinc-200 mb-6 flex items-center gap-2"
+            className="text-2xl font-bold text-blue-100 mb-6 flex items-center gap-2"
           >
-            <div className="w-1 h-6 bg-green-500 rounded" />
+            <div className="w-1 h-6 bg-green-400 rounded shadow-lg shadow-green-400/50" />
             {studentBranch.sectionName}
           </motion.h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* <ChartCard title="Count by Region and Grade" index={4}>
-              <DatasetChart data={studentBranch} isInView={isInView} />
-            </ChartCard> */}
-
-           {/*  <ChartCard title="Count by Gender" index={5}>
-              <GenderChart data={studentBranch} isInView={isInView} />
-            </ChartCard> */}
-
             <ChartCard title="Count by Technology Focus Area" index={6}>
               <TechnologyFocusChart data={studentBranch} isInView={isInView} />
             </ChartCard>

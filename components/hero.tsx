@@ -119,7 +119,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ delay:2.5, duration: 0.8, ease: "easeOut" }}
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm text-white mb-6">
@@ -134,7 +134,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 1.2,
-              delay: 0.3,
+              delay: 2.6,
               ease: [0.22, 1, 0.36, 1]
             }}
           >
@@ -162,7 +162,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.8,
-              delay: 0.8,
+              delay: 2.7,
               ease: [0.22, 1, 0.36, 1]
             }}
           >
@@ -174,7 +174,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.6 }}
+            transition={{ delay: 2.8, duration: 0.6 }}
           >
             <Button
               size="lg"

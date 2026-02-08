@@ -39,11 +39,11 @@ function TeamMemberCard({
       >
         {/* Front of card */}
         <div
-          className="absolute inset-0 backface-hidden bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden"
+          className="absolute inset-0 backface-hidden bg-blue-950/50 backdrop-blur-sm rounded-lg border-2 border-blue-700/40 overflow-hidden hover:border-blue-600/60 transition-colors shadow-lg"
           style={{ backfaceVisibility: "hidden" }}
         >
           {/* Image */}
-          <div className="relative w-full aspect-square bg-zinc-800">
+          <div className="relative w-full aspect-square bg-blue-900/30">
             <Image
               src={member.image}
               alt={member.name}
@@ -55,10 +55,10 @@ function TeamMemberCard({
 
           {/* Info */}
           <div className="p-2">
-            <h3 className="text-lg font-semibold text-zinc-100 mb-1">
+            <h3 className="text-lg font-semibold text-white mb-1">
               {member.name}
             </h3>
-            <p className="text-sm text-zinc-400 uppercase tracking-wider mb-3">
+            <p className="text-sm text-blue-200/80 uppercase tracking-wider mb-3">
               {member.designation}
             </p>
 
@@ -68,7 +68,7 @@ function TeamMemberCard({
                 href={member.linkedIn}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="inline-block text-blue-300/70 hover:text-blue-100 transition-colors"
                 aria-label={`${member.name}'s LinkedIn`}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -86,23 +86,23 @@ function TeamMemberCard({
 
         {/* Back of card */}
         <div
-          className="absolute inset-0 backface-hidden bg-zinc-800 rounded-lg border border-zinc-700 p-6 flex flex-col justify-center"
+          className="absolute inset-0 backface-hidden bg-blue-900/60 backdrop-blur-md rounded-lg border-2 border-blue-600/50 p-6 flex flex-col justify-center shadow-lg"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
         >
-          <h3 className="text-xl font-semibold text-zinc-100 mb-3">
+          <h3 className="text-xl font-semibold text-white mb-3">
             {member.name}
           </h3>
-          <p className="text-sm text-zinc-300 leading-relaxed">{member.bio}</p>
+          <p className="text-sm text-blue-50/90 leading-relaxed">{member.bio}</p>
 
           {member.linkedIn && (
             <a
               href={member.linkedIn}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              className="inline-flex items-center gap-2 mt-4 text-sm text-blue-200/80 hover:text-white transition-colors"
               onClick={(e) => e.stopPropagation()}
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -124,8 +124,38 @@ interface ChapterTeamProps {
 
 export default function ChapterTeam({ team, chapterName }: ChapterTeamProps) {
   return (
-    <section className="relative py-16 sm:py-24 bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-16 sm:py-24 bg-gradient-to-b from-slate-950 via-blue-950 to-blue-900 overflow-hidden">
+      {/* Smooth transition overlay at top */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-slate-950/50 to-transparent pointer-events-none" />
+      
+      {/* Pulsating background orbs */}
+      <motion.div
+        className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.3, 0.15],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.4, 1],
+          opacity: [0.1, 0.25, 0.1],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -134,10 +164,10 @@ export default function ChapterTeam({ team, chapterName }: ChapterTeamProps) {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-zinc-100 mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-100 via-white to-blue-100 bg-clip-text text-transparent mb-4">
             Our Team
           </h2>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
+          <p className="text-blue-100/80 text-lg max-w-2xl mx-auto">
             Meet the dedicated leaders driving {chapterName}
           </p>
         </motion.div>
@@ -155,7 +185,7 @@ export default function ChapterTeam({ team, chapterName }: ChapterTeamProps) {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="text-center text-sm text-zinc-600 mt-8"
+          className="text-center text-sm text-blue-400/60 mt-8"
         >
           Hover over cards to learn more about each member
         </motion.p> */}
