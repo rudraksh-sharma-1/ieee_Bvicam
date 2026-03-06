@@ -133,7 +133,7 @@ export const teamData: TeamData = {
           id: "wie-secretary",
           name: "Kajal Mishra",
           role: "secretary",
-          image: "/images/team/Kajal_Mishra.jpg",
+          image: "/images/team/Kajal_Mishra.JPG",
           linkedIn: "https://www.linkedin.com/in/kajal-mishra-06924430a/",
         },
         {
