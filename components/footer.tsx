@@ -73,12 +73,12 @@ export default function Footer() {
 
             {/* Column 1:  About */}
             <div className="space-y-4">
-              <div className="relative w-72 h-16 group">
+              <div className="relative w-72 h-16 group bg-amber-50 rounded-2xl">
                 <Image
                   src="/images/SBIEEE_Logo.webp"
                   alt="IEEE BVICAM Logo"
                   fill
-                  className="object-cover transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,-1)] drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]"
+                  className="object-cover transition-all md:pb-2 duration-300 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,-1)] drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]"
                   priority
                 />
               </div>

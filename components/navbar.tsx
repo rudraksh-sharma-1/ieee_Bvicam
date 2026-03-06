@@ -76,13 +76,13 @@ export default function Navbar() {
             className="flex items-center gap-3 group cursor-pointer transition-all duration-300 -ml-2 sm:-ml-3"
             aria-label="IEEE BVICAM Home"
           >
-            <div className="relative w-32 h-16 sm:w-40 sm:h-20 md:w-48 md:h-24 flex items-center justify-center">
+            <div className="relative w-32 h-16 sm:w-40 sm:h-20 md:w-60 md:h-16 md:bg-amber-50 rounded-2xl flex items-center justify-center">
               <Image
                 src="/images/SBIEEE_Logo.webp"
                 alt="IEEE BVICAM Logo"
                 fill
                 sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, 192px"
-                className="object-contain transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]"
+                className="object-cover transition-all md:pb-2 duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]"
                 priority
               />
             </div>
