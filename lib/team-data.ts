@@ -83,16 +83,17 @@ export const teamData: TeamData = {
       members: [
         {
           id: "smc-chair",
-          name: "Vaibhav Pathak",
+          name: "Rohan Swami",
           role: "chairperson",
-          image: "/images/team/vaibhav_pathak.webp",
+          image: "/images/team/rohan_swami.webp",
+          linkedIn: "https://www.linkedin.com/in/rohan-swami-0a50a0330/",
         },
         {
           id: "smc-vice",
-          name: "Rohan Swami",
+          name: "Deepali Pathania",
           role: "vice-chair",
-          image: "/images/team/rohan_swami.webp",
-          linkedIn: "https://www.linkedin.com/in/rohan-swami-0a50a0330/",
+          image: "/images/team/Deepali.jpeg",
+          linkedIn: "https://www.linkedin.com/in/deepali-pathania-b98282269/",
         },
         {
           id: "smc-secretary",

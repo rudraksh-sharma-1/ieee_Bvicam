@@ -326,19 +326,19 @@ export const chapterDetails: ChapterDetail[] = [
     team: [
       {
         id: "smc-chair",
-        name: "Vaibhav Pathak",
+        name: "Rohan Swami",
         designation: "Chapter Chair",
-        image: "/images/team/vaibhav_pathak.webp",
-        bio: "Vaibhav Pathak serves as the Chair of the IEEE Systems, Man, and Cybernetics (SMC) society at BVICAM, New Delhi. He leads the chapter in advancing systems engineering and cybernetics. Vaibhav is dedicated to fostering technical excellence and professional growth, helping members with opportunities for research, networking, and innovative real-world applications.",
-        linkedIn: "https://www.linkedin.com/in/vaibhav-pathak2003?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+        image: "/images/team/rohan_swami.webp",
+        bio: "Rohan Swami serves as the Chair of the IEEE Systems, Man, and Cybernetics (SMC) chapter. He is dedicated to fostering a collaborative and inclusive environment that encourages innovation and leadership. The chapter focuses on systems science and engineering, human–machine systems, cybernetics, and their real-world applications through research, technical activities, networking, and professional development opportunities.",
+        linkedIn: "http://www.linkedin.com/in/rohan-swami-0a50a0330"
       },
       {
         id: "smc-vice",
-        name: "Rohan Swami",
+        name: "Deepali Pathania",
         designation: "Vice Chair",
-        image: "/images/team/rohan_swami.webp",
-        bio: "Rohan Swami serves as the Vice Chair of the IEEE Systems, Man, and Cybernetics (SMC) chapter. He is dedicated to fostering a collaborative and inclusive environment that encourages innovation and leadership. The chapter focuses on systems science and engineering, human–machine systems, cybernetics, and their real-world applications through research, technical activities, networking, and professional development opportunities.",
-        linkedIn: "http://www.linkedin.com/in/rohan-swami-0a50a0330"
+        image: "/images/team/Deepali.jpeg",
+        bio: "Deepali is currently serving as the Vice Chair of the IEEE Systems, Man, and Cybernetics (SMC) Chapter under the IEEE Student Branch, Delhi Section. She contributes to building a collaborative and innovative environment that encourages members to develop technical skills, leadership qualities, and creative thinking. Through her role, she supports technical events, workshops, and networking opportunities, while promoting learning in systems science, human–machine systems, and cybernetics.",
+        linkedIn: "https://www.linkedin.com/in/deepali-pathania-b98282269/"
       },
       {
         id: "smc-sec",

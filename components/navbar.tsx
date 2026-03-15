@@ -93,7 +93,7 @@ export default function Navbar() {
             {/* Home button */}
             <button
               onClick={handleHomeClick}
-              className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10"
+              className="cursor-pointer px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10"
             >
               Home
             </button>
@@ -102,7 +102,7 @@ export default function Navbar() {
               <button
                 key={link.id}
                 onClick={() => handleNavigation(link)}
-                className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10"
+                className="cursor-pointer px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10"
               >
                 {link.label}
               </button>
@@ -111,7 +111,7 @@ export default function Navbar() {
             {/* Chapters Dropdown */}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <button className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10 flex items-center gap-1">
+                <button className="cursor-pointer px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10 flex items-center gap-1">
                   Chapters
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -135,7 +135,7 @@ export default function Navbar() {
             {/* Events Dropdown */}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <button className="px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10 flex items-center gap-1">
+                <button className="cursor-pointer px-4 py-2 text-sm font-medium text-blue-100 hover:text-white transition-colors rounded-md hover:bg-white/10 flex items-center gap-1">
                   Events
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
