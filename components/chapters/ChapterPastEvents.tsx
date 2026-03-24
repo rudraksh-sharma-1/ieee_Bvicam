@@ -16,10 +16,10 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { 
-      month: 'long', 
-      day: 'numeric', 
-      year: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
     });
   };
 
@@ -60,10 +60,10 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
           className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-900/40 to-transparent" />
-        
+
         {/* Mode Badge */}
         {modeConfig && ModeIcon && (
           <div className={`absolute top-4 right-4 ${modeConfig.color} border px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold shadow-lg backdrop-blur-md`}>
@@ -79,9 +79,8 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
               <button
                 key={idx}
                 onClick={() => setSelectedImage(idx)}
-                className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
-                  selectedImage === idx ? 'border-blue-400 shadow-lg shadow-blue-500/50' : 'border-blue-400/40 opacity-70 hover:opacity-100'
-                }`}
+                className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${selectedImage === idx ? 'border-blue-400 shadow-lg shadow-blue-500/50' : 'border-blue-400/40 opacity-70 hover:opacity-100'
+                  }`}
               >
                 <Image
                   src={img}
@@ -144,7 +143,7 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
           <div className="mb-6">
             <h4 className="text-lg font-semibold bg-gradient-to-r from-blue-100 to-white bg-clip-text text-transparent mb-2 flex items-center gap-2">
               <div className="w-1 h-5 bg-gradient-to-b from-blue-400 to-blue-600 rounded" />
-              Meeting Agenda
+              Agenda
             </h4>
             <p className="text-blue-100/80 leading-relaxed pl-3 border-l-2 border-blue-700/50">
               {event.agenda}
@@ -157,7 +156,7 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
           <div className="mb-6">
             <h4 className="text-lg font-semibold bg-gradient-to-r from-blue-100 to-white bg-clip-text text-transparent mb-4 flex items-center gap-2">
               <div className="w-1 h-5 bg-gradient-to-b from-blue-400 to-blue-600 rounded" />
-              Meeting Schedule
+              Schedule
             </h4>
             <div className="space-y-3">
               {event.schedule.map((item, idx) => (
@@ -170,12 +169,14 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
                   className="flex gap-4 group"
                 >
                   {/* Time */}
-                  <div className="flex-shrink-0 w-32">
-                    <div className="text-sm font-semibold text-blue-100 bg-blue-700/40 backdrop-blur-sm px-3 py-1.5 rounded-lg inline-block border border-blue-600/30">
-                      {item.time}
+                  {item.time && (
+                    <div className="flex-shrink-0 w-32">
+                      <div className="text-sm font-semibold text-blue-100 bg-blue-700/40 backdrop-blur-sm px-3 py-1.5 rounded-lg inline-block border border-blue-600/30">
+                        {item.time}
+                      </div>
                     </div>
-                  </div>
-                  
+                  )}
+
                   {/* Timeline */}
                   <div className="relative flex-shrink-0">
                     <div className="w-3 h-3 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full ring-4 ring-blue-700/30 shadow-lg shadow-blue-500/50" />
@@ -250,8 +251,8 @@ function EventCard({ event, index }: { event: PastEvent; index: number }) {
 export default function ChapterPastEvents({ events }: ChapterPastEventsProps) {
   const [filter, setFilter] = useState<'all' | 'online' | 'offline' | 'hybrid'>('all');
 
-  const filteredEvents = filter === 'all' 
-    ? events 
+  const filteredEvents = filter === 'all'
+    ? events
     : events.filter(e => e.mode === filter);
 
   return (
@@ -314,7 +315,7 @@ export default function ChapterPastEvents({ events }: ChapterPastEventsProps) {
         >
           <div className="inline-block mb-4">
             <div className="px-4 py-2 bg-blue-700/30 backdrop-blur-sm text-blue-100 rounded-full text-sm font-semibold border border-blue-600/30">
-              Past Events & Meetings
+              Events & Meetings
             </div>
           </div>
           <h2 className="text-4xl py-2 sm:text-5xl font-bold bg-gradient-to-r from-blue-100 via-white to-blue-100 bg-clip-text text-transparent mb-4">
@@ -337,11 +338,10 @@ export default function ChapterPastEvents({ events }: ChapterPastEventsProps) {
             <button
               key={mode}
               onClick={() => setFilter(mode)}
-              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 ${
-                filter === mode
+              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 ${filter === mode
                   ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/50'
                   : 'bg-blue-800/30 backdrop-blur-sm text-blue-100 border border-blue-600/30 hover:border-blue-400/50 hover:shadow-md hover:shadow-blue-500/20'
-              }`}
+                }`}
             >
               {mode.charAt(0).toUpperCase() + mode.slice(1)}
             </button>

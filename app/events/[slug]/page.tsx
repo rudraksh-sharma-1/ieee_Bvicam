@@ -5,6 +5,7 @@ import EventSubNav from "@/components/EventSubNav";
 import EventTimeline from "@/components/EventTimeline";
 import EventHeroTitle from "@/components/EventHeroTitle";
 import EventHeroParticles from "@/components/Eventheroparticles";
+import UpcomingEventsSection from "@/components/UpcomingEventsSection";
 
 interface PageProps {
   params: Promise<{
@@ -96,7 +97,7 @@ export default async function EventDetailPage({ params }: PageProps) {
 
         {/* Main Content */}
         {isUpcomingPlaceholder ? (
-          <UpcomingPlaceholder />
+          <UpcomingEventsSection />
         ) : (
           <EventTimeline days={event.days} />
         )}
@@ -105,36 +106,3 @@ export default async function EventDetailPage({ params }: PageProps) {
   );
 }
 
-// Placeholder component for upcoming events with particles
-function UpcomingPlaceholder() {
-  return (
-    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center overflow-hidden">
-      {/* Particles for placeholder */}
-      <EventHeroParticles />
-      
-      <div className="relative z-10 space-y-6">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-900/40 backdrop-blur-sm border-2 border-blue-500/40 shadow-lg shadow-blue-500/20">
-          <svg 
-            className="w-10 h-10 text-blue-300/80" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
-            />
-          </svg>
-        </div>
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-100 to-white bg-clip-text text-transparent">
-          Coming Soon
-        </h2>
-        <p className="text-blue-100/80 max-w-md mx-auto">
-          Exciting new events are being planned. Check back soon for updates on our upcoming activities!
-        </p>
-      </div>
-    </div>
-  );
-}

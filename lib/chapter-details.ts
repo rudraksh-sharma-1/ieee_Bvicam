@@ -358,24 +358,7 @@ export const chapterDetails: ChapterDetail[] = [
       },
     ],
     pastEvents: [
-      {
-        id: "pcb-workshop",
-        title: "PCB Design Workshop",
-        description: "Comprehensive hands-on workshop covering PCB design fundamentals, trace routing, and manufacturing preparation using industry-standard tools.",
-        image: "/images/chapters/smc-logo.webp",
-        date: "2025-01-15",
-        time: "10:00 AM - 4:00 PM",
-        participants: 60
-      },
-      {
-        id: "analog-seminar",
-        title: "Analog Circuit Design Seminar",
-        description: "Expert lecture series on advanced analog circuit techniques including op-amp design, filters, and oscillators.",
-        image: "/images/chapters/smc-logo.webp",
-        date: "2024-12-10",
-        time: "2:00 PM - 5:00 PM",
-        participants: 45
-      }
+      
     ],
     metadata: {
       title: "Circuits and Systems Society | IEEE BVICAM",
@@ -449,24 +432,7 @@ export const chapterDetails: ChapterDetail[] = [
       },
     ],
     pastEvents: [
-      {
-        id: "robo-race",
-        title: "Autonomous Robot Race",
-        description: "Competitive event where teams build and program autonomous robots to navigate complex obstacle courses using sensors and AI.",
-        image: "/images/chapters/ap-s-Logo.png",
-        date: "2025-01-10",
-        time: "11:00 AM - 5:00 PM",
-        participants: 50
-      },
-      {
-        id: "drone-workshop",
-        title: "Drone Building Workshop",
-        description: "Hands-on workshop teaching participants to assemble, program, and fly their own quadcopter drones.",
-        image: "/images/chapters/ap-s-Logo.png",
-        date: "2024-12-05",
-        time: "1:00 PM - 6:00 PM",
-        participants: 35
-      }
+      
     ],
     metadata: {
       title: "Robotics and Automation Society | IEEE BVICAM",
@@ -541,23 +507,45 @@ export const chapterDetails: ChapterDetail[] = [
     ],
     pastEvents: [
       {
-        id: "stem-girls",
-        title: "Girls in STEM Workshop",
-        description: "Interactive workshop for high school girls introducing engineering concepts through hands-on projects and mentoring.",
-        image: "/images/chapters/IEEE_WIE-social_logo.webp",
-        date: "2025-01-08",
-        time: "10:00 AM - 3:00 PM",
-        participants: 70
+        id: "du-2026",
+        title: "Digital Udaan 2026",
+        description: "IEEE Women in Engineering (WIE) Affinity Group presents an interactive digital awareness workshop aimed at empowering non-teaching female staff with essential digital knowledge and skills. The workshop will cover practical usage of AI-powered tools such as Google Assistant, Google Translate, and Google Lens, along with critical cyber safety education including fraud messages, phishing links, and OTP scams.",
+        image: "/images/events/codefest-main.webp",
+        gallery: [
+          "/images/events/DIGIUDAAN.png",
+        ],
+        date: "2026-03-27",
+        time: "2:00 PM – 4:00 PM",
+        mode: "offline",
+        venue: "Delphi Hall, BVICAM",
+        participants: 60,
+        agenda: "It will also address important aspects of cyber safety including fraud messages, phishing links, and OTP scams. Through demonstrations, hands-on practice, and interactive sessions, participants will gain confidence in using digital technologies safely and effectively in their daily lives.",
+        schedule: [
+          {
+            time: "",
+            activity: "Session 1: AI Tools Demonstration",
+            description: "Introduce basic AI tools like Google Assistant and Google Translate"
+          },
+          {
+            time: "",
+            activity: "Session 2: Hands-on Practice",
+            description: "Improve digital literacy among non-teaching female staff"
+          },
+          {
+            time: "",
+            activity: "Session 3: Cyber Awareness",
+            description: "Create awareness about online frauds, OTP scams, and cyber safety"
+          },
+          {
+            time: "",
+            activity: " Interactive Activities and Engagement",
+            description: "Interactive Activities: Scam identification game, quick quiz, live demonstrations"
+          },
+        ],
+        speakers: [
+         
+        ],
       },
-      {
-        id: "women-tech-talk",
-        title: "Women Leaders in Tech Panel",
-        description: "Panel discussion featuring successful women engineers and entrepreneurs sharing their career journeys and insights.",
-        image: "/images/chapters/IEEE_WIE-social_logo.webp",
-        date: "2024-12-15",
-        time: "3:00 PM - 5:00 PM",
-        participants: 90
-      }
     ],
     metadata: {
       title: "Women in Engineering | IEEE BVICAM",

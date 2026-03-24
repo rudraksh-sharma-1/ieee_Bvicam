@@ -26,15 +26,87 @@ export interface EventDetail {
   slug: string;
   eventId: string;
   eventName: string;
+  subtitle?: string;       
   description: string;
   date?: string;
+  time?: string;           
+  venue?: string;          
   duration?: string;
+  posterImage?: EventImage; 
   type: EventType;
   isDefault?: boolean;
   days: EventDay[];
 }
 
 export const eventDetails: EventDetail[] = [
+  {
+    slug: "digital-udaan-2026",
+    eventId: "du-2026",
+    eventName: "Digital Udaan 2026",
+    subtitle: "AI & Digital Payment Workshop",
+    description:
+      "IEEE Women in Engineering (WIE) Affinity Group presents an interactive digital awareness workshop aimed at empowering non-teaching female staff with essential digital knowledge and skills. The workshop will cover practical usage of AI-powered tools such as Google Assistant, Google Translate, and Google Lens, along with critical cyber safety education including fraud messages, phishing links, and OTP scams.",
+    date: "27 Mar 2026",
+    time: "2:00 PM – 4:00 PM",
+    venue: "Delphi Hall, BVICAM",
+    type: "upcoming",
+    isDefault: true,
+    posterImage: {
+      src: "/images/events/Digital-Udaan.jpeg",
+      alt: "Digital Udaan 2026 – AI & Digital Payment Workshop poster",
+    },
+    days: [
+      {
+        dayNumber: 1,
+        date: "27 March 2026",
+        numberOfEvents: 6,
+        events: [
+          {
+            eventNumber: 1,
+            eventTitle: "Registration & Welcome",
+            eventDescription:
+              "Participant registration, welcome address by IEEE WIE Affinity Group leads, and a brief introduction to the IEEE WIE mission and the objectives of the workshop.",
+            images: [],
+          },
+          {
+            eventNumber: 2,
+            eventTitle: "Session 1: AI Tools Demonstration",
+            eventDescription:
+              "Live demonstrations of everyday AI tools — Google Assistant (voice commands), Google Translate (text & voice translation), and Google Lens (image-based search) — showing how these tools simplify daily tasks.",
+            images: [],
+          },
+          {
+            eventNumber: 3,
+            eventTitle: "Session 2: Hands-on Practice",
+            eventDescription:
+              "Participants get direct, guided practice using AI tools on their own smartphones, supported by IEEE WIE volunteers at every step.",
+            images: [],
+          },
+          {
+            eventNumber: 4,
+            eventTitle: "Session 3: Cyber Safety & Digital Payments",
+            eventDescription:
+              "Focused awareness session on recognising online frauds, OTP scams, phishing links, WhatsApp/social media safety, and secure digital payment practices.",
+            images: [],
+          },
+          {
+            eventNumber: 5,
+            eventTitle: "Interactive Activities",
+            eventDescription:
+              "Scam identification game, live quiz, and a help-desk corner where participants can ask individual questions and get personalised guidance.",
+            images: [],
+          },
+          {
+            eventNumber: 6,
+            eventTitle: "Feedback & Closing",
+            eventDescription:
+              "Participants share experiences, fill feedback forms, and receive closing remarks and vote of thanks from the organising team.",
+            images: [],
+          },
+        ],
+      },
+    ],
+  },
   {
     slug: "ieee-education-week-2025",
     eventId: "iew-2025",
@@ -478,7 +550,7 @@ export const eventDetails: EventDetail[] = [
     slug: "upcoming",
     eventId: "upcoming",
     eventName: "Upcoming Events",
-    description: "Exciting new events are being planned. Stay tuned for announcements!",
+    description: "Check our exciting new events!",
     type: "upcoming",
     isDefault: true,
     days: []
@@ -497,4 +569,10 @@ export function getEventsByType(type: EventType): EventDetail[] {
 export function getDefaultEvent(type: EventType): EventDetail | undefined {
   const events = getEventsByType(type);
   return events.find(event => event.isDefault) || events[0];
+}
+
+export function getRealUpcomingEvents(): EventDetail[] {
+  return eventDetails.filter(
+    (event) => event.type === "upcoming" && event.slug !== "upcoming"
+  );
 }
