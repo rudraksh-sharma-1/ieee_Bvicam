@@ -222,7 +222,7 @@ export const chapterDetails: ChapterDetail[] = [
       },
     ],
     pastEvents: [
-      {
+      /* {
         id: "hackathon-24",
         title: "CodeFest 2024 - National Hackathon",
         description: "A 24-hour coding marathon where teams of developers collaborate to build innovative solutions addressing real-world problems. Participants received mentorship from industry professionals and competed for prizes worth ₹2 lakhs.",
@@ -284,7 +284,7 @@ export const chapterDetails: ChapterDetail[] = [
             bio: "Serial entrepreneur and tech leader with successful exits in the startup ecosystem."
           },
         ],
-      },
+      }, */
     ],
     metadata: {
       title: "Computer Society | IEEE BVICAM",
